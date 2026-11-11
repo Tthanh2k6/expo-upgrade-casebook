@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { Slider as NativeSlider } from 'react-native-elements';
+import { Slider as NativeSlider } from '@rneui/themed';
 import theme from '../../styles/theme.style';
 
 const Slider = ({ minimumValue, maximumValue, step, value, onValueChange, testID }) => {

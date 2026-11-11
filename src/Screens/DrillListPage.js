@@ -1,7 +1,7 @@
 import React, { useState, useLayoutEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { Input } from 'react-native-elements';
+import { Input } from '@rneui/themed';
 
 import { DrillTypes } from '../Fixtures/config';
 import I18n from '../utils/i18n';

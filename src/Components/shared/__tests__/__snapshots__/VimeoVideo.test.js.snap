@@ -43,7 +43,7 @@ exports[`<VimeoVideo /> displays a message on error 1`] = `
       onLoadStart={[Function]}
       onReadyForDisplay={[Function]}
       onStatusUpdate={[Function]}
-      resizeMode="mock"
+      resizeMode={{}}
       status={{}}
       style={
         [
@@ -123,7 +123,7 @@ exports[`<VimeoVideo /> loads the video 1`] = `
       onLoadStart={[Function]}
       onReadyForDisplay={[Function]}
       onStatusUpdate={[Function]}
-      resizeMode="mock"
+      resizeMode={{}}
       status={{}}
       style={
         [

@@ -19,6 +19,7 @@ export default {
     version: '2.0.0',
     githubUrl: 'https://github.com/disc-in/UltimateApp',
     orientation: 'portrait',
+    newArchEnabled: true,
     scheme: 'discin',
     primaryColor: '#2a9e91',
     icon: './assets/icon.png',

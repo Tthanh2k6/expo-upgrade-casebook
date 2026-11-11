@@ -1,13 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<TrainingPage /> When fitness program renders correctly a fitness training 1`] = `
-<LEGACY_RNCViewPager
+<RNCViewPager
   layoutDirection="ltr"
   onMoveShouldSetResponderCapture={[Function]}
   onPageScroll={[Function]}
   onPageScrollStateChanged={[Function]}
   onPageSelected={[Function]}
-  useLegacy={true}
 >
   <View
     collapsable={false}
@@ -124,9 +123,7 @@ exports[`<TrainingPage /> When fitness program renders correctly a fitness train
                 testID="goToNext0"
               >
                 <Icon
-                  allowFontScaling={false}
                   name="chevron-right"
-                  size={12}
                   style={
                     {
                       "color": "#232b2b",
@@ -1364,9 +1361,7 @@ exports[`<TrainingPage /> When fitness program renders correctly a fitness train
                 testID="goToPrev1"
               >
                 <Icon
-                  allowFontScaling={false}
                   name="chevron-left"
-                  size={12}
                   style={
                     {
                       "color": "#232b2b",
@@ -2538,17 +2533,16 @@ exports[`<TrainingPage /> When fitness program renders correctly a fitness train
       />
     </View>
   </View>
-</LEGACY_RNCViewPager>
+</RNCViewPager>
 `;
 
 exports[`<TrainingPage /> When frisbee program renders correctly a frisbee training 1`] = `
-<LEGACY_RNCViewPager
+<RNCViewPager
   layoutDirection="ltr"
   onMoveShouldSetResponderCapture={[Function]}
   onPageScroll={[Function]}
   onPageScrollStateChanged={[Function]}
   onPageSelected={[Function]}
-  useLegacy={true}
 >
   <View
     collapsable={false}
@@ -2665,9 +2659,7 @@ exports[`<TrainingPage /> When frisbee program renders correctly a frisbee train
                 testID="goToNext0"
               >
                 <Icon
-                  allowFontScaling={false}
                   name="chevron-right"
-                  size={12}
                   style={
                     {
                       "color": "#232b2b",
@@ -2694,7 +2686,6 @@ exports[`<TrainingPage /> When frisbee program renders correctly a frisbee train
                 }
               >
                 <Icon
-                  allowFontScaling={false}
                   color="#232b2b"
                   name="account-multiple"
                   size={22}
@@ -2719,7 +2710,6 @@ exports[`<TrainingPage /> When frisbee program renders correctly a frisbee train
                 }
               >
                 <Icon
-                  allowFontScaling={false}
                   color="#232b2b"
                   name="clock-outline"
                   size={22}
@@ -4070,9 +4060,7 @@ exports[`<TrainingPage /> When frisbee program renders correctly a frisbee train
                 testID="goToPrev1"
               >
                 <Icon
-                  allowFontScaling={false}
                   name="chevron-left"
-                  size={12}
                   style={
                     {
                       "color": "#232b2b",
@@ -4135,7 +4123,6 @@ exports[`<TrainingPage /> When frisbee program renders correctly a frisbee train
                 }
               >
                 <Icon
-                  allowFontScaling={false}
                   color="#232b2b"
                   name="account-multiple"
                   size={22}
@@ -4160,7 +4147,6 @@ exports[`<TrainingPage /> When frisbee program renders correctly a frisbee train
                 }
               >
                 <Icon
-                  allowFontScaling={false}
                   color="#232b2b"
                   name="clock-outline"
                   size={22}
@@ -5409,5 +5395,5 @@ exports[`<TrainingPage /> When frisbee program renders correctly a frisbee train
       </View>
     </View>
   </View>
-</LEGACY_RNCViewPager>
+</RNCViewPager>
 `;

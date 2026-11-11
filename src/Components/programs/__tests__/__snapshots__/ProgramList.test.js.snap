@@ -164,7 +164,12 @@ exports[`<ProgramList /> renders correctly 1`] = `
           <View
             collapsable={false}
             onLayout={[Function]}
-            style={{}}
+            style={
+              [
+                undefined,
+                {},
+              ]
+            }
           >
             <View
               accessibilityState={
@@ -403,7 +408,12 @@ exports[`<ProgramList /> renders correctly 1`] = `
           <View
             collapsable={false}
             onLayout={[Function]}
-            style={{}}
+            style={
+              [
+                undefined,
+                {},
+              ]
+            }
           >
             <View
               accessibilityState={

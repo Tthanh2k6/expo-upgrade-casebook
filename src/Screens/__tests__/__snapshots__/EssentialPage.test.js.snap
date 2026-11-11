@@ -46,13 +46,13 @@ exports[`<EssentialPage /> renders correctly 1`] = `
               "label": "Cutting",
               "testID": undefined,
               "textColor": undefined,
-              "value": "0",
+              "value": 0,
             },
             {
               "label": "Throwing",
               "testID": undefined,
               "textColor": undefined,
-              "value": "1",
+              "value": 1,
             },
           ]
         }

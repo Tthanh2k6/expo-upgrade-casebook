@@ -18,6 +18,7 @@ exports[`<ImporterPage /> when routing on drills goes back to beginning on cance
         "width": "100%",
       }
     }
+    testID="RNE__Input__view-wrapper"
   >
     <View
       collapsable={false}
@@ -69,11 +70,17 @@ exports[`<ImporterPage /> when routing on drills goes back to beginning on cance
               "overflow": "hidden",
             }
           }
+          testID="RNE__ICON__CONTAINER"
         >
           <View
+            accessibilityRole="button"
             accessibilityState={
               {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
               }
             }
             accessibilityValue={
@@ -85,8 +92,11 @@ exports[`<ImporterPage /> when routing on drills goes back to beginning on cance
               }
             }
             accessible={true}
+            collapsable={false}
             focusable={true}
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
             onResponderRelease={[Function]}
@@ -103,31 +113,9 @@ exports[`<ImporterPage /> when routing on drills goes back to beginning on cance
                   "justifyContent": "center",
                 }
               }
+              testID="RNE__ICON"
             >
-              <Text
-                allowFontScaling={false}
-                selectable={false}
-                style={
-                  [
-                    {
-                      "color": "#242424",
-                      "fontSize": 24,
-                    },
-                    {
-                      "backgroundColor": "transparent",
-                    },
-                    {
-                      "fontFamily": "material-community",
-                      "fontStyle": "normal",
-                      "fontWeight": "normal",
-                    },
-                    {},
-                  ]
-                }
-                testID="iconIcon"
-              >
-                󰄬
-              </Text>
+              <Text />
             </View>
           </View>
         </View>
@@ -157,27 +145,7 @@ exports[`<ImporterPage /> when routing on drills renders an error message if the
     }
   }
 >
-  <Text
-    allowFontScaling={false}
-    selectable={false}
-    style={
-      [
-        {
-          "color": undefined,
-          "fontSize": 72,
-        },
-        undefined,
-        {
-          "fontFamily": "material-community",
-          "fontStyle": "normal",
-          "fontWeight": "normal",
-        },
-        {},
-      ]
-    }
-  >
-    󰇚
-  </Text>
+  <Text />
   <Text
     style={
       {
@@ -186,7 +154,7 @@ exports[`<ImporterPage /> when routing on drills renders an error message if the
       }
     }
   >
-    I am fetching the play you want to import it… 🏃
+    I am fetching the drill you want to import it… 🏃
   </Text>
 </View>
 `;
@@ -369,6 +337,7 @@ exports[`<ImporterPage /> when routing on drills renders correctly before downlo
         "width": "100%",
       }
     }
+    testID="RNE__Input__view-wrapper"
   >
     <View
       collapsable={false}
@@ -420,11 +389,17 @@ exports[`<ImporterPage /> when routing on drills renders correctly before downlo
               "overflow": "hidden",
             }
           }
+          testID="RNE__ICON__CONTAINER"
         >
           <View
+            accessibilityRole="button"
             accessibilityState={
               {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
               }
             }
             accessibilityValue={
@@ -436,8 +411,11 @@ exports[`<ImporterPage /> when routing on drills renders correctly before downlo
               }
             }
             accessible={true}
+            collapsable={false}
             focusable={true}
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
             onResponderRelease={[Function]}
@@ -454,6 +432,7 @@ exports[`<ImporterPage /> when routing on drills renders correctly before downlo
                   "justifyContent": "center",
                 }
               }
+              testID="RNE__ICON"
             >
               <Text />
             </View>
@@ -492,6 +471,7 @@ exports[`<ImporterPage /> when routing on plays goes back to beginning on cancel
         "width": "100%",
       }
     }
+    testID="RNE__Input__view-wrapper"
   >
     <View
       collapsable={false}
@@ -543,11 +523,17 @@ exports[`<ImporterPage /> when routing on plays goes back to beginning on cancel
               "overflow": "hidden",
             }
           }
+          testID="RNE__ICON__CONTAINER"
         >
           <View
+            accessibilityRole="button"
             accessibilityState={
               {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
               }
             }
             accessibilityValue={
@@ -559,8 +545,11 @@ exports[`<ImporterPage /> when routing on plays goes back to beginning on cancel
               }
             }
             accessible={true}
+            collapsable={false}
             focusable={true}
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
             onResponderRelease={[Function]}
@@ -577,31 +566,9 @@ exports[`<ImporterPage /> when routing on plays goes back to beginning on cancel
                   "justifyContent": "center",
                 }
               }
+              testID="RNE__ICON"
             >
-              <Text
-                allowFontScaling={false}
-                selectable={false}
-                style={
-                  [
-                    {
-                      "color": "#242424",
-                      "fontSize": 24,
-                    },
-                    {
-                      "backgroundColor": "transparent",
-                    },
-                    {
-                      "fontFamily": "material-community",
-                      "fontStyle": "normal",
-                      "fontWeight": "normal",
-                    },
-                    {},
-                  ]
-                }
-                testID="iconIcon"
-              >
-                󰄬
-              </Text>
+              <Text />
             </View>
           </View>
         </View>
@@ -631,27 +598,7 @@ exports[`<ImporterPage /> when routing on plays renders an error message if the 
     }
   }
 >
-  <Text
-    allowFontScaling={false}
-    selectable={false}
-    style={
-      [
-        {
-          "color": undefined,
-          "fontSize": 72,
-        },
-        undefined,
-        {
-          "fontFamily": "material-community",
-          "fontStyle": "normal",
-          "fontWeight": "normal",
-        },
-        {},
-      ]
-    }
-  >
-    󰇚
-  </Text>
+  <Text />
   <Text
     style={
       {
@@ -660,7 +607,7 @@ exports[`<ImporterPage /> when routing on plays renders an error message if the 
       }
     }
   >
-    I am fetching the drill you want to import it… 🏃
+    I am fetching the play you want to import it… 🏃
   </Text>
 </View>
 `;
@@ -843,6 +790,7 @@ exports[`<ImporterPage /> when routing on plays renders correctly before downloa
         "width": "100%",
       }
     }
+    testID="RNE__Input__view-wrapper"
   >
     <View
       collapsable={false}
@@ -894,11 +842,17 @@ exports[`<ImporterPage /> when routing on plays renders correctly before downloa
               "overflow": "hidden",
             }
           }
+          testID="RNE__ICON__CONTAINER"
         >
           <View
+            accessibilityRole="button"
             accessibilityState={
               {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
               }
             }
             accessibilityValue={
@@ -910,8 +864,11 @@ exports[`<ImporterPage /> when routing on plays renders correctly before downloa
               }
             }
             accessible={true}
+            collapsable={false}
             focusable={true}
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
             onResponderRelease={[Function]}
@@ -928,6 +885,7 @@ exports[`<ImporterPage /> when routing on plays renders correctly before downloa
                   "justifyContent": "center",
                 }
               }
+              testID="RNE__ICON"
             >
               <Text />
             </View>

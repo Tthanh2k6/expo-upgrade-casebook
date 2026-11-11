@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
-import { CheckBox as NativeCheckbox } from 'react-native-elements';
+import { CheckBox as NativeCheckbox } from '@rneui/themed';
 import { useField } from 'formik';
 
 import I18n from '../../../utils/i18n';

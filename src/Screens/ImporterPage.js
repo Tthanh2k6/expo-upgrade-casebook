@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Input } from 'react-native-elements';
+import { Input } from '@rneui/themed';
 
 import theme from '../styles/theme.style';
 import I18n from '../utils/i18n';

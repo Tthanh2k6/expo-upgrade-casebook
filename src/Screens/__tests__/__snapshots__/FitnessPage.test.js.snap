@@ -34,9 +34,12 @@ exports[`<FitnessPage /> renders correctly 1`] = `
         collapsable={false}
         pointerEvents="box-none"
         style={
-          {
-            "zIndex": 1,
-          }
+          [
+            {
+              "zIndex": 1,
+            },
+            false,
+          ]
         }
       >
         <View
@@ -64,18 +67,28 @@ exports[`<FitnessPage /> renders correctly 1`] = `
             <View
               collapsable={false}
               style={
-                {
-                  "backgroundColor": "#232b2b",
-                  "borderBottomColor": "rgb(216, 216, 216)",
-                  "flex": 1,
-                  "shadowColor": "rgb(216, 216, 216)",
-                  "shadowOffset": {
-                    "height": 0.5,
-                    "width": 0,
+                [
+                  {
+                    "flex": 1,
+                    "shadowOffset": {
+                      "height": 0.5,
+                      "width": 0,
+                    },
+                    "shadowOpacity": 0.85,
+                    "shadowRadius": 0,
                   },
-                  "shadowOpacity": 0.85,
-                  "shadowRadius": 0,
-                }
+                  {
+                    "backgroundColor": "rgb(255, 255, 255)",
+                    "borderBottomColor": "rgb(216, 216, 216)",
+                    "shadowColor": "rgb(216, 216, 216)",
+                  },
+                  [
+                    {
+                      "backgroundColor": "#232b2b",
+                    },
+                    false,
+                  ],
+                ]
               }
             />
           </View>
@@ -83,13 +96,15 @@ exports[`<FitnessPage /> renders correctly 1`] = `
             collapsable={false}
             pointerEvents="box-none"
             style={
-              {
-                "height": 44,
-                "maxHeight": undefined,
-                "minHeight": undefined,
-                "opacity": undefined,
-                "transform": undefined,
-              }
+              [
+                {
+                  "height": 44,
+                  "maxHeight": undefined,
+                  "minHeight": undefined,
+                  "opacity": undefined,
+                  "transform": undefined,
+                },
+              ]
             }
           >
             <View
@@ -144,11 +159,16 @@ exports[`<FitnessPage /> renders correctly 1`] = `
                   numberOfLines={1}
                   onLayout={[Function]}
                   style={
-                    {
-                      "color": "#fff",
-                      "fontSize": 17,
-                      "fontWeight": "600",
-                    }
+                    [
+                      {
+                        "fontSize": 17,
+                        "fontWeight": "600",
+                      },
+                      {
+                        "color": "#fff",
+                      },
+                      undefined,
+                    ]
                   }
                 >
                   Fitness Drill Title
@@ -205,14 +225,18 @@ exports[`<FitnessPage /> renders correctly 1`] = `
           sheetInitialDetent={0}
           sheetLargestUndimmedDetent={-1}
           style={
-            {
-              "bottom": 0,
-              "left": 0,
-              "position": "absolute",
-              "right": 0,
-              "top": 0,
-              "zIndex": undefined,
-            }
+            [
+              {
+                "bottom": 0,
+                "left": 0,
+                "position": "absolute",
+                "right": 0,
+                "top": 0,
+              },
+              {
+                "zIndex": undefined,
+              },
+            ]
           }
         >
           <View
@@ -281,9 +305,13 @@ exports[`<FitnessPage /> renders correctly 1`] = `
               collapsable={false}
               pointerEvents="box-none"
               style={
-                {
-                  "flex": 1,
-                }
+                [
+                  {
+                    "flex": 1,
+                  },
+                  undefined,
+                  null,
+                ]
               }
             >
               <View

@@ -357,7 +357,7 @@ exports[`<FrisbeeFilters /> renders correctly 1`] = `
               {
                 "busy": undefined,
                 "checked": false,
-                "disabled": undefined,
+                "disabled": false,
                 "expanded": undefined,
                 "selected": undefined,
               }
@@ -373,7 +373,9 @@ exports[`<FrisbeeFilters /> renders correctly 1`] = `
             accessible={true}
             collapsable={false}
             focusable={true}
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
             onResponderRelease={[Function]}
@@ -383,17 +385,15 @@ exports[`<FrisbeeFilters /> renders correctly 1`] = `
             style={
               {
                 "backgroundColor": "#fff",
-                "borderColor": "#ededed",
-                "borderRadius": 3,
+                "borderColor": "#ffffff",
                 "borderWidth": 0,
                 "margin": 5,
                 "marginLeft": 10,
                 "marginRight": 10,
-                "opacity": 1,
                 "padding": 0,
               }
             }
-            testID="checkbox"
+            testID="RNE__CheckBox__Wrapper"
           >
             <View
               style={
@@ -405,6 +405,7 @@ exports[`<FrisbeeFilters /> renders correctly 1`] = `
             >
               <Text />
               <Text
+                accessibilityRole="text"
                 style={
                   {
                     "color": "#43484d",
@@ -414,7 +415,7 @@ exports[`<FrisbeeFilters /> renders correctly 1`] = `
                     "textTransform": "capitalize",
                   }
                 }
-                testID="checkboxTitle"
+                testID="RNE__CheckBox__Title"
               >
                 Handling
               </Text>
@@ -458,15 +459,10 @@ exports[`<FrisbeeFilters /> renders correctly 1`] = `
             {
               "max": 30,
               "min": 1,
-              "now": 0,
+              "now": 1,
             }
           }
-          allowTouchTrack={false}
-          animationType="timing"
           onLayout={[Function]}
-          onValueChange={[Function]}
-          orientation="horizontal"
-          step={1}
           style={
             {
               "flexGrow": 10,
@@ -479,6 +475,7 @@ exports[`<FrisbeeFilters /> renders correctly 1`] = `
           theme={
             {
               "colors": {
+                "background": "#ffffff",
                 "black": "#242424",
                 "disabled": "hsl(208, 8%, 90%)",
                 "divider": "#bcbbc1",
@@ -530,20 +527,20 @@ exports[`<FrisbeeFilters /> renders correctly 1`] = `
                 },
                 "primary": "#2089dc",
                 "searchBg": "#303337",
-                "secondary": "#ca71eb",
+                "secondary": "#ad1457",
                 "success": "#52c41a",
                 "warning": "#faad14",
                 "white": "#ffffff",
               },
+              "spacing": {
+                "lg": 12,
+                "md": 8,
+                "sm": 4,
+                "xl": 24,
+                "xs": 2,
+              },
             }
           }
-          thumbTouchSize={
-            {
-              "height": 40,
-              "width": 40,
-            }
-          }
-          value={0}
         >
           <View
             onLayout={[Function]}
@@ -554,6 +551,7 @@ exports[`<FrisbeeFilters /> renders correctly 1`] = `
                 "height": 2,
               }
             }
+            testID="RNE__Slider_Track_maximum"
           />
           <View
             collapsable={false}
@@ -562,11 +560,11 @@ exports[`<FrisbeeFilters /> renders correctly 1`] = `
                 "backgroundColor": "#2a9e91",
                 "borderRadius": 2,
                 "height": 0,
-                "marginTop": -0,
                 "position": "absolute",
                 "width": 0,
               }
             }
+            testID="RNE__Slider_Track_minimum"
           />
           <View
             collapsable={false}
@@ -585,7 +583,7 @@ exports[`<FrisbeeFilters /> renders correctly 1`] = `
                 "width": 20,
               }
             }
-            testID="sliderThumb"
+            testID="RNE__Slider_Thumb"
           />
           <View
             onMoveShouldSetResponder={[Function]}
@@ -605,11 +603,16 @@ exports[`<FrisbeeFilters /> renders correctly 1`] = `
                 "backgroundColor": "transparent",
                 "bottom": 0,
                 "left": 0,
+                "marginBottom": -0,
+                "marginLeft": -0,
+                "marginRight": -0,
+                "marginTop": -0,
                 "position": "absolute",
                 "right": 0,
                 "top": 0,
               }
             }
+            testID="RNE__Slider_TouchArea"
           />
         </View>
         <Text

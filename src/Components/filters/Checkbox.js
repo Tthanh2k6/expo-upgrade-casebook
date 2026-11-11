@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { CheckBox as NativeCheckbox } from 'react-native-elements';
+import { CheckBox as NativeCheckbox } from '@rneui/themed';
 import theme from '../../styles/theme.style';
 
 const Checkbox = (props) => {

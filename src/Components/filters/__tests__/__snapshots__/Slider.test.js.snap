@@ -24,14 +24,10 @@ exports[`<Slider /> renders correctly 1`] = `
       {
         "max": 1,
         "min": 0,
-        "now": 15,
+        "now": 1,
       }
     }
-    allowTouchTrack={false}
-    animationType="timing"
     onLayout={[Function]}
-    orientation="horizontal"
-    step={0}
     style={
       {
         "flexGrow": 10,
@@ -43,6 +39,7 @@ exports[`<Slider /> renders correctly 1`] = `
     theme={
       {
         "colors": {
+          "background": "#ffffff",
           "black": "#242424",
           "disabled": "hsl(208, 8%, 90%)",
           "divider": "#bcbbc1",
@@ -94,20 +91,20 @@ exports[`<Slider /> renders correctly 1`] = `
           },
           "primary": "#2089dc",
           "searchBg": "#303337",
-          "secondary": "#ca71eb",
+          "secondary": "#ad1457",
           "success": "#52c41a",
           "warning": "#faad14",
           "white": "#ffffff",
         },
+        "spacing": {
+          "lg": 12,
+          "md": 8,
+          "sm": 4,
+          "xl": 24,
+          "xs": 2,
+        },
       }
     }
-    thumbTouchSize={
-      {
-        "height": 40,
-        "width": 40,
-      }
-    }
-    value={15}
   >
     <View
       onLayout={[Function]}
@@ -118,6 +115,7 @@ exports[`<Slider /> renders correctly 1`] = `
           "height": 2,
         }
       }
+      testID="RNE__Slider_Track_maximum"
     />
     <View
       collapsable={false}
@@ -126,11 +124,11 @@ exports[`<Slider /> renders correctly 1`] = `
           "backgroundColor": "#2a9e91",
           "borderRadius": 2,
           "height": 0,
-          "marginTop": -0,
           "position": "absolute",
           "width": 0,
         }
       }
+      testID="RNE__Slider_Track_minimum"
     />
     <View
       collapsable={false}
@@ -149,7 +147,7 @@ exports[`<Slider /> renders correctly 1`] = `
           "width": 20,
         }
       }
-      testID="sliderThumb"
+      testID="RNE__Slider_Thumb"
     />
     <View
       onMoveShouldSetResponder={[Function]}
@@ -169,11 +167,16 @@ exports[`<Slider /> renders correctly 1`] = `
           "backgroundColor": "transparent",
           "bottom": 0,
           "left": 0,
+          "marginBottom": -0,
+          "marginLeft": -0,
+          "marginRight": -0,
+          "marginTop": -0,
           "position": "absolute",
           "right": 0,
           "top": 0,
         }
       }
+      testID="RNE__Slider_TouchArea"
     />
   </View>
   <Text

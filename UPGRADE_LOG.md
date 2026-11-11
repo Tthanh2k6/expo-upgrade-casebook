@@ -175,3 +175,45 @@ git diff --check
 - Android export: **OK**, exit 0, 2025 modules bundled in 51175 ms; 44 assets, one 6.37 MB Hermes bundle and metadata.json exported to `%TEMP%\expo-casebook-sdk52\android-export`, outside the repository. No native build or device runtime test was performed.
 - Inspection/tooling notes: `rg` was unavailable (`The term 'rg' is not recognized`), so searches used PowerShell. One tool orchestration call had `SyntaxError: Invalid or unexpected token` before any command ran and was corrected. Read-only Git status warned that the global ignore file was inaccessible; Git also emitted Windows line-ending notices.
 - No Git add, commit, stash, or checkout commands were run. Changes are limited to SDK dependencies/lockfile, app configuration, the 12 mock paths, eight snapshot files, this log, and COMMIT_MSG.txt. `git diff --check` passed before the documentation update.
+
+## SDK 53 (React Native 0.79.6)
+
+- Measured on 11 November 2026, Windows. Upgraded only SDK 52 to 53: Expo 53.0.27, React Native 0.79.6, React 19.0.0, Reanimated 3.17.5, Gesture Handler 2.24.0, screens 4.11.1, safe-area-context 5.4.0, pager-view 6.7.1, jest-expo 53.0.14, babel-preset-expo 13, TypeScript 5.8.3.
+- Reviewed the [SDK 53 release notes](https://expo.dev/changelog/2025-04-30-sdk-53). The two changes that hit this app were React 19 (no `defaultProps` on function components, new element `$$typeof`) and the removal of `Localization.locale`.
+- New Architecture: `app.config.js` had no `newArchEnabled`, so SDK 53 would turn it on implicitly. Added `newArchEnabled: true` explicitly so the choice is visible. Reason: SDK 54 makes it mandatory and later steps need it. Only the JS tests and the bundle were checked; no device build or runtime test was done on either architecture.
+
+Commands (Node 20.20.2 and Yarn 1 as in the SDK 50 to 52 steps):
+
+```powershell
+npx.cmd expo install expo@^53.0.0
+npx.cmd expo install --fix        # also: jest-expo@~53, babel-preset-expo, typescript@~5.8.3
+yarn add -D @testing-library/react-native@^13.2.0 react-test-renderer@19.0.0
+yarn add @rneui/themed@4.0.0-rc.8 @rneui/base@4.0.0-rc.7 ; yarn remove react-native-elements
+APP_ENV=development npx.cmd jest --ci --coverage=false
+npx.cmd expo-doctor
+npx.cmd expo export --platform android --output-dir <temp dir outside the repo>
+```
+
+Errors and fixes:
+
+- `Cannot find native module 'ExponentAV'` (VimeoVideo suite). Cause: jest-expo 53 no longer ships a mock for that expo-av module. Fix: add a small `jest.mock('expo-av/build/ExponentAV', ...)` in `setupJest.js`. expo-av stays (deprecated, removed in SDK 54; migrating to expo-video/expo-audio is left for the SDK 54 step).
+- `Expected newLocale to be a string; got undefined` in `src/utils/i18n.js`. Cause: `Localization.locale` was removed. Fix: `Localization.getLocales()[0]?.languageTag ?? 'en'`.
+- `Unable to find an element with text: Cancel` / `Yes` in ImporterPage. Cause: `@testing-library/react-native` 11 does not flush async updates under React 19. Fix: upgrade to 13.3.3 (with `react-test-renderer@19`).
+- Slider rendered with `min`/`max` `undefined`, icons rendering empty. Cause: `react-native-elements` 3.4.3 (unmaintained) relies on `defaultProps`, which React 19 ignores. Fix: replaced it with `@rneui/themed` 4.0.0-rc.8 and `@rneui/base` 4.0.0-rc.7, same components (`CheckBox`, `Slider`, `Input`) in 5 files. rc.8/rc.7 are used instead of 5.0.0 because 5.0.0 depends on `@react-native-vector-icons/*` native packages that Expo does not alias, while rc.7 resolves `react-native-vector-icons` to `@expo/vector-icons`. rc.7 sets defaults by destructuring, so it works on React 19. Added `@rneui/.*` to Jest `transformIgnorePatterns`.
+- `RangeError: Invalid string length` in TrainingPage snapshots. Cause: Jest 29's pretty-format does not recognise React 19 elements (`Symbol.for('react.transitional.element')`) and walks the whole `_owner` fiber when a FlatList header element is in props. Fix: `jest.reactElementSerializer.js` (registered in `snapshotSerializers`) prints them as before.
+- Export: `child.splitExportDeclaration is not a function`, then `Cannot find module '@babel/helper-...'` from stale nested `@babel/traverse` copies after the in-place install. Same class of problem as in SDK 52. Fix: `yarn-deduplicate` on the Babel packages, then moved `node_modules` to the ignored `.expo/nm53` and ran a clean `yarn install`. Added `modulePathIgnorePatterns: ["<rootDir>/.expo/"]` so Jest does not crawl that backup (`Cannot parse ...\.expo\nm53\...\package.json as JSON`).
+- expo-doctor: `typescript@5.3.3 - expected version: ~5.8.3`. Fixed with `expo install typescript@~5.8.3`.
+
+Snapshots (29 + 2 updated across 19 files; all reviewed, no assertion or mock weakened, no test deleted):
+
+- `@rneui` replacing react-native-elements: Checkbox, Input and Icon get new testIDs (`RNE__CheckBox__Title`, `RNE__ICON`, ...), accessibility props and focus handlers; checkbox `borderColor` `#ededed` to `#ffffff` and no `borderRadius`/`opacity` (border width is 0). Slider `accessibilityValue.now` 15 to 1: the new Slider clamps the value to its max (1), which the test did not set.
+- React 19 no longer applies `defaultProps`: style arrays and `Icon` elements lose default props such as `allowFontScaling`/`size` (TrainingPage, HomePage, DrillPage, FitnessPage, ProgramList, FrisbeeDrillIllustration, DrillPageMinimal).
+- pager-view 6.7: `LEGACY_RNCViewPager` with `useLegacy` becomes `RNCViewPager` (New Architecture component).
+- Picker values serialised as numbers instead of strings (EssentialPage, TacticsPage); VimeoVideo `resizeMode="mock"` becomes `{}` (jest-expo mock change).
+
+Results:
+
+- Jest (`APP_ENV=development`, Node 20.20.2, no update mode): **59/59 suites, 178/178 tests, 85/85 snapshots passed**. Existing act(...) warnings and the expo-av deprecation warning remain.
+- Expo Doctor 1.21.7 (Node 24, `@expo/env` supplied as in SDK 51/52): **17/18 passed**. The remaining failure is the React Native Directory check: unmaintained `@react-native-masked-view/masked-view`, `@rneui/base`, `@rneui/themed`, `expo-av`, `react-native-collapsible`, `react-native-flash-message`, `react-native-snap-carousel`; no metadata for `@react-navigation/material-bottom-tabs`, `dotenv`, `firebase`, `watchman`. Not excluded or disabled. `@rneui` is itself flagged unmaintained, so the replacement trades one flagged library for another to keep behaviour.
+- Android export: **OK**, one 6.53 MB Hermes bundle plus assets and `metadata.json` in a temp dir outside the repository. No device test.
+- `react-redux` 8.0.5 still warns about its React 18 peer range; tests and export pass, so it was left for a later step. No Git add, commit, stash, checkout or push was run.

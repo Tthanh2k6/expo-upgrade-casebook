@@ -1102,6 +1102,7 @@ exports[`<DrillListPage /> filters the list with searched text 2`] = `
         "width": "100%",
       }
     }
+    testID="RNE__Input__view-wrapper"
   >
     <View
       collapsable={false}
@@ -1154,11 +1155,17 @@ exports[`<DrillListPage /> filters the list with searched text 2`] = `
               "overflow": "hidden",
             }
           }
+          testID="RNE__ICON__CONTAINER"
         >
           <View
+            accessibilityRole="button"
             accessibilityState={
               {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
               }
             }
             accessibilityValue={
@@ -1170,14 +1177,18 @@ exports[`<DrillListPage /> filters the list with searched text 2`] = `
               }
             }
             accessible={true}
+            collapsable={false}
             focusable={true}
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
             onResponderRelease={[Function]}
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="RNE__ICON__CONTAINER_ACTION"
           >
             <View
               style={
@@ -1187,6 +1198,7 @@ exports[`<DrillListPage /> filters the list with searched text 2`] = `
                   "justifyContent": "center",
                 }
               }
+              testID="RNE__ICON"
             >
               <Text
                 allowFontScaling={false}
@@ -1208,7 +1220,7 @@ exports[`<DrillListPage /> filters the list with searched text 2`] = `
                     {},
                   ]
                 }
-                testID="iconIcon"
+                testID="RNE__ICON__Component"
               >
                 
               </Text>
@@ -1776,6 +1788,7 @@ exports[`<DrillListPage /> filters the list with searched text 3`] = `
         "width": "100%",
       }
     }
+    testID="RNE__Input__view-wrapper"
   >
     <View
       collapsable={false}
@@ -1828,11 +1841,17 @@ exports[`<DrillListPage /> filters the list with searched text 3`] = `
               "overflow": "hidden",
             }
           }
+          testID="RNE__ICON__CONTAINER"
         >
           <View
+            accessibilityRole="button"
             accessibilityState={
               {
+                "busy": undefined,
+                "checked": undefined,
                 "disabled": false,
+                "expanded": undefined,
+                "selected": undefined,
               }
             }
             accessibilityValue={
@@ -1844,14 +1863,18 @@ exports[`<DrillListPage /> filters the list with searched text 3`] = `
               }
             }
             accessible={true}
+            collapsable={false}
             focusable={true}
+            onBlur={[Function]}
             onClick={[Function]}
+            onFocus={[Function]}
             onResponderGrant={[Function]}
             onResponderMove={[Function]}
             onResponderRelease={[Function]}
             onResponderTerminate={[Function]}
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
+            testID="RNE__ICON__CONTAINER_ACTION"
           >
             <View
               style={
@@ -1861,6 +1884,7 @@ exports[`<DrillListPage /> filters the list with searched text 3`] = `
                   "justifyContent": "center",
                 }
               }
+              testID="RNE__ICON"
             >
               <Text
                 allowFontScaling={false}
@@ -1882,7 +1906,7 @@ exports[`<DrillListPage /> filters the list with searched text 3`] = `
                     {},
                   ]
                 }
-                testID="iconIcon"
+                testID="RNE__ICON__Component"
               >
                 
               </Text>

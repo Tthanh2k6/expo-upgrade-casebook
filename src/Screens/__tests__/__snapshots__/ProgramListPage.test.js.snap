@@ -164,7 +164,12 @@ exports[`<ProgramListPage /> renders correctly when connected 1`] = `
           <View
             collapsable={false}
             onLayout={[Function]}
-            style={{}}
+            style={
+              [
+                undefined,
+                {},
+              ]
+            }
           >
             <View
               accessibilityState={
