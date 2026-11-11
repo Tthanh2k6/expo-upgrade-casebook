@@ -217,3 +217,45 @@ Results:
 - Expo Doctor 1.21.7 (Node 24, `@expo/env` supplied as in SDK 51/52): **17/18 passed**. The remaining failure is the React Native Directory check: unmaintained `@react-native-masked-view/masked-view`, `@rneui/base`, `@rneui/themed`, `expo-av`, `react-native-collapsible`, `react-native-flash-message`, `react-native-snap-carousel`; no metadata for `@react-navigation/material-bottom-tabs`, `dotenv`, `firebase`, `watchman`. Not excluded or disabled. `@rneui` is itself flagged unmaintained, so the replacement trades one flagged library for another to keep behaviour.
 - Android export: **OK**, one 6.53 MB Hermes bundle plus assets and `metadata.json` in a temp dir outside the repository. No device test.
 - `react-redux` 8.0.5 still warns about its React 18 peer range; tests and export pass, so it was left for a later step. No Git add, commit, stash, checkout or push was run.
+
+## SDK 54 (React Native 0.81.5)
+
+- Measured on 11 November 2026, Windows. Upgraded only SDK 53 to 54: Expo 54.0.37, React Native 0.81.5, React 19.1.0, Reanimated 4.1.7 with the new `react-native-worklets` 0.5.1, Gesture Handler 2.28, screens 4.16, safe-area-context 5.6, pager-view 6.9.1, async-storage 2.2.0, expo-av 16.0.8, jest-expo 54.0.18, babel-preset-expo 54.0.12, TypeScript 5.9.
+- Reviewed the [SDK 54 release notes](https://expo.dev/changelog/sdk-54). What matters for this app: React Native 0.81 and React 19.1; Reanimated 4 needs the New Architecture (already on since SDK 53) and `react-native-worklets`; `expo-av` is still present but deprecated and goes away in SDK 55; Node 20.19.4 or newer is required (Node 20.20.2 used); edge-to-edge on Android is always on for API 36 and this app has no code for the navigation bar or system bars, so nothing was changed; SDK 54 is the last release that supports the Legacy Architecture. The app does not use expo-file-system, expo-notifications or the iOS-only locale config, so those removals do not apply. No device or emulator test was done.
+- `expo-av` was not migrated to expo-audio/expo-video in this step. It is a SDK 55 task (the app still compiles and the VimeoVideo tests pass).
+
+Commands (Node 20.20.2 and Yarn 1 as in the SDK 50 to 53 steps; `APP_ENV=development`):
+
+```powershell
+npx.cmd expo install expo@^54.0.0
+npx.cmd expo install --fix
+npx.cmd expo install react-native-worklets
+yarn add -D react-test-renderer@19.1.0
+npx.cmd jest --ci --coverage=false
+npx.cmd jest --ci --coverage=false --updateSnapshot   # after reviewing every diff
+npx.cmd jest --ci --coverage=false
+npx.cmd expo export --platform android --output-dir <temp dir outside the repo>
+# Node 24:
+npx.cmd --yes --package=expo-doctor@1.21.7 --package=@expo/env@2.6.0 expo-doctor
+```
+
+Errors and fixes:
+
+- `expo install expo@^54.0.0` installed exactly `expo@54.0.0` (no range); `expo install --fix` then moved it to `~54.0.37`. Both are slow on a cold Yarn cache (about 4 and 1.5 minutes).
+- First `expo install --fix` ended with `Cannot automatically write to dynamic config at: app.config.js` and exit 1, after updating the runtime dependencies but before the dev dependencies. Cause: `expo-mail-composer` 15 needs its config plugin and `app.config.js` is dynamic, so the tool cannot add it. Fix: added `'expo-mail-composer'` to `plugins` in `app.config.js`, then re-ran `--fix`, which exited 0 and updated jest-expo and TypeScript.
+- Yarn warned `react-native-reanimated@4.1.7 has unmet peer dependency "react-native-worklets@0.5 - 0.8"`. Reanimated 4 moved the worklets runtime to a separate package. Fix: `expo install react-native-worklets` (0.5.1). Also bumped `react-test-renderer` to 19.1.0 to match React 19.1.0.
+- `babel.config.js`: removed `plugins: ['react-native-reanimated/plugin']`. With `react-native-worklets` installed, `babel-preset-expo` 54 applies the worklets plugin itself. `setupJest.js` mocks (`react-native-reanimated/mock`, `__reanimatedWorkletInit`) were left unchanged and still work.
+- No stale nested Babel packages this time, so no `yarn-deduplicate` or clean reinstall was needed.
+
+Snapshots (15 failed on the first Jest run: 12 suites, 14 tests, 70 passed; all differences reviewed in `git diff`, no test or assertion changed or deleted, then updated):
+
+- Icon glyphs (SharePlay, ShareDrill, DrillList, DrillListPage): the single private-use character in the icon `<Text>` changes codepoint (private-use range U+E... to U+F...). Likely cause: the `@expo/vector-icons` glyph maps were updated with this SDK; not traced further.
+- Style arrays flattened (HomePage, DrillPage, DrillPageMinimal, FitnessPage, ProgramList, ProgramListPage, FrisbeeDrillIllustration, DrillListPage): nested style arrays such as `[[a, b], c]` and `[undefined, {}]` now render as one object, so the `false`/`undefined`/`null` entries disappear and keys appear in a different order; three `style={[undefined, {}]}` become `style={{}}`. Probable cause: the updated react-native-screens/react-native packages flatten styles before rendering (not traced to one package). Values (`flex`, `top`, `height: 44`, shadows, opacity) are the same, only the nesting differs. Prop names, text and testIDs did not change.
+- Modal: `hardwareAccelerated={false}` is no longer rendered. Cause: React Native 0.81 Modal no longer sets that default.
+
+Results:
+
+- Jest after the snapshot update: 59/59 suites, 178/178 tests, 15 snapshots updated and 70 unchanged. Final run without update mode: **59/59 suites, 178/178 tests, 85/85 snapshots passed**, exit 0 (20.7 s). Existing act(...) warnings remain; the expo-av deprecation warning now says it is removed in SDK 54 (stale text in the package) and a new warning says `SafeAreaView` from React Native is deprecated.
+- Expo Doctor 1.21.7 (Node 24, `@expo/env` supplied as in SDK 51 to 53): **18/18 checks passed, no issues detected**. Nothing was excluded or disabled.
+- Android export: **OK**, exit 0, 2292 modules bundled in 60437 ms; 44 assets, one 6.78 MB Hermes bundle and `metadata.json` in a temp dir outside the repository. No device test.
+- `react-redux` 8.0.5 still warns about its React 18 peer range; left for a later step. No Git add, commit, stash, checkout or push was run.

@@ -88,16 +88,11 @@ exports[`<FrisbeeDrillIllustration /> renders correctly 1`] = `
     sliderWidth={750}
     stickyHeaderIndices={[]}
     style={
-      [
-        {},
-        {
-          "opacity": 0,
-        },
-        {
-          "flexDirection": "row",
-          "width": 750,
-        },
-      ]
+      {
+        "flexDirection": "row",
+        "opacity": 0,
+        "width": 750,
+      }
     }
     swipeThreshold={20}
     useScrollView={false}

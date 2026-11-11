@@ -1006,7 +1006,7 @@ exports[`<DrillListPage /> filters the list with searched text 2`] = `
             ]
           }
         >
-          
+          
         </Text>
       </View>
       <View
@@ -1090,7 +1090,7 @@ exports[`<DrillListPage /> filters the list with searched text 2`] = `
             ]
           }
         >
-          
+          
         </Text>
       </View>
     </View>
@@ -1222,7 +1222,7 @@ exports[`<DrillListPage /> filters the list with searched text 2`] = `
                 }
                 testID="RNE__ICON__Component"
               >
-                
+                
               </Text>
             </View>
           </View>
@@ -1692,7 +1692,7 @@ exports[`<DrillListPage /> filters the list with searched text 3`] = `
             ]
           }
         >
-          
+          
         </Text>
       </View>
       <View
@@ -1776,7 +1776,7 @@ exports[`<DrillListPage /> filters the list with searched text 3`] = `
             ]
           }
         >
-          
+          
         </Text>
       </View>
     </View>
@@ -1908,7 +1908,7 @@ exports[`<DrillListPage /> filters the list with searched text 3`] = `
                 }
                 testID="RNE__ICON__Component"
               >
-                
+                
               </Text>
             </View>
           </View>

@@ -529,7 +529,7 @@ exports[`<DrillList /> renders correctly 1`] = `
                 ]
               }
             >
-              
+              
             </Text>
           </View>
           <View
@@ -587,7 +587,7 @@ exports[`<DrillList /> renders correctly 1`] = `
                 ]
               }
             >
-              
+              
             </Text>
           </View>
         </View>
