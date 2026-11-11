@@ -22,56 +22,24 @@ exports[`<VimeoVideo /> displays a message on error 1`] = `
       Oopsie! There was an error loading the video…
     </Text>
   </View>
-  <View
-    style={
-      [
-        {
-          "overflow": "hidden",
-          "pointerEvents": "box-none",
-        },
-        {
-          "height": 250,
-          "width": "100%",
-        },
-      ]
+  <ViewManagerAdapter_ExpoVideo
+    contentFit="contain"
+    fullscreenOptions={
+      {
+        "enable": true,
+      }
     }
-  >
-    <ViewManagerAdapter_ExpoVideoView
-      onError={[Function]}
-      onFullscreenUpdate={[Function]}
-      onLoad={[Function]}
-      onLoadStart={[Function]}
-      onReadyForDisplay={[Function]}
-      onStatusUpdate={[Function]}
-      resizeMode={{}}
-      status={{}}
-      style={
-        [
-          {
-            "bottom": 0,
-            "left": 0,
-            "position": "absolute",
-            "right": 0,
-            "top": 0,
-          },
-          undefined,
-        ]
+    nativeControls={true}
+    onFullscreenEnter={[Function]}
+    onFullscreenExit={[Function]}
+    player={1}
+    style={
+      {
+        "height": 250,
+        "width": "100%",
       }
-      useNativeControls={true}
-      videoStyle={
-        [
-          {
-            "bottom": 0,
-            "left": 0,
-            "position": "absolute",
-            "right": 0,
-            "top": 0,
-          },
-          undefined,
-        ]
-      }
-    />
-  </View>
+    }
+  />
 </View>
 `;
 
@@ -102,55 +70,23 @@ exports[`<VimeoVideo /> loads the video 1`] = `
       Loading…
     </Text>
   </View>
-  <View
-    style={
-      [
-        {
-          "overflow": "hidden",
-          "pointerEvents": "box-none",
-        },
-        {
-          "height": 250,
-          "width": "100%",
-        },
-      ]
+  <ViewManagerAdapter_ExpoVideo
+    contentFit="contain"
+    fullscreenOptions={
+      {
+        "enable": true,
+      }
     }
-  >
-    <ViewManagerAdapter_ExpoVideoView
-      onError={[Function]}
-      onFullscreenUpdate={[Function]}
-      onLoad={[Function]}
-      onLoadStart={[Function]}
-      onReadyForDisplay={[Function]}
-      onStatusUpdate={[Function]}
-      resizeMode={{}}
-      status={{}}
-      style={
-        [
-          {
-            "bottom": 0,
-            "left": 0,
-            "position": "absolute",
-            "right": 0,
-            "top": 0,
-          },
-          undefined,
-        ]
+    nativeControls={true}
+    onFullscreenEnter={[Function]}
+    onFullscreenExit={[Function]}
+    player={1}
+    style={
+      {
+        "height": 250,
+        "width": "100%",
       }
-      useNativeControls={true}
-      videoStyle={
-        [
-          {
-            "bottom": 0,
-            "left": 0,
-            "position": "absolute",
-            "right": 0,
-            "top": 0,
-          },
-          undefined,
-        ]
-      }
-    />
-  </View>
+    }
+  />
 </View>
 `;

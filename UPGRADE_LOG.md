@@ -259,3 +259,68 @@ Results:
 - Expo Doctor 1.21.7 (Node 24, `@expo/env` supplied as in SDK 51 to 53): **18/18 checks passed, no issues detected**. Nothing was excluded or disabled.
 - Android export: **OK**, exit 0, 2292 modules bundled in 60437 ms; 44 assets, one 6.78 MB Hermes bundle and `metadata.json` in a temp dir outside the repository. No device test.
 - `react-redux` 8.0.5 still warns about its React 18 peer range; left for a later step. No Git add, commit, stash, checkout or push was run.
+
+## SDK 55 (React Native 0.83.10)
+
+- Measured on 12 November 2026, Windows, Node 24.15.0 and Yarn 1.22.22. Upgraded only SDK 54 to 55: Expo 55.0.32, React Native 0.83.10, React 19.2.0, Reanimated 4.2.1, Worklets 0.7.4, Gesture Handler 2.30.0, screens 4.23.0, pager-view 8.0.0, expo-video 55.0.21, jest-expo 55.0.22 and babel-preset-expo 55.0.25. Matched react-test-renderer to React 19.2.0 and raised the package Node minimum to 20.19.4; `.nvmrc` remains 20.20.2.
+- Reviewed the [SDK 55 release notes](https://expo.dev/changelog/sdk-55), [upgrade guide](https://expo.dev/blog/upgrading-to-sdk-55), and React Native [0.82](https://reactnative.dev/blog/2025/10/08/react-native-0.82) and [0.83](https://reactnative.dev/blog/2025/12/10/react-native-0.83) notes. SDK 55 requires the New Architecture, already enabled here. No native project directories, EAS Update publishing commands, or app usages of the other removed APIs were found. Hermes V1 was not enabled.
+- Replaced the app's only `expo-av` usage, `VimeoVideo`, with `expo-video` because AV is removed from Expo Go and no longer maintained. Used `useVideoPlayer`, `replaceAsync`, status events and `VideoView` with SDK 55's `fullscreenOptions.enable`. Retained 540p selection, looping, mute/autoplay options, native controls, contain sizing and orientation callbacks. The player pauses on navigation blur; late fetch completion cannot autoplay after blur or unmount. iOS mixing and Android ducking use `audioMixingMode`; expo-video's iOS implementation uses the playback audio category, including silent-switch playback. No standalone audio usage required `expo-audio`.
+- Removed the old AV native mock, added the video config plugin, and added six video behavior tests with deterministic fetch responses. Tests keep the real video hook and view, mocking only the native player class. The existing snap-carousel fork, RNEUI and material bottom tabs passed the requested checks without replacement. These checks do not establish device runtime compatibility.
+
+Commands and environment (fresh temporary caches; previous SDK 50 cache paths were absent):
+
+```powershell
+$env:HUSKY = '0'
+$env:EXPO_NO_TELEMETRY = '1'
+$env:APP_ENV = 'development'
+$env:__UNSAFE_EXPO_HOME_DIRECTORY = Join-Path $env:TEMP 'expo-casebook-sdk55\expo'
+$env:npm_config_cache = Join-Path $env:TEMP 'expo-casebook-sdk55\npm'
+$env:YARN_CACHE_FOLDER = Join-Path $env:TEMP 'expo-casebook-sdk55\yarn'
+npx.cmd --yes yarn@1.22.22 --version
+$yarnBin = Get-ChildItem -Path (Join-Path $env:npm_config_cache '_npx\*\node_modules\.bin\yarn.cmd') | Select-Object -First 1 -ExpandProperty DirectoryName
+$env:Path = $yarnBin + ';' + $env:Path
+node --version # v24.15.0
+npx.cmd expo install expo@^55.0.0
+npx.cmd expo install --fix
+npx.cmd expo-doctor # early run while dependency alignment was still in progress
+npx.cmd expo install expo-video
+# Added expo-video to app.config.js plugins after the CLI error below.
+npx.cmd --yes yarn@1.22.22 remove expo-av
+npx.cmd --yes yarn@1.22.22 add --dev react-test-renderer@19.2.0
+npx.cmd jest --ci --coverage=false
+npx.cmd expo-doctor
+# Repeated Jest after the native mock changes; used this focused command twice:
+npx.cmd jest --ci --coverage=false --runInBand src/Components/shared/__tests__/VimeoVideo.test.js
+npx.cmd jest --ci --coverage=false
+npx.cmd prettier --write src/Components/shared/VimeoVideo.js src/Components/shared/__tests__/VimeoVideo.test.js setupJest.js
+npx.cmd jest --ci --coverage=false --updateSnapshot
+npx.cmd expo export --platform android --output-dir (Join-Path $env:TEMP 'expo-casebook-sdk55\android-export')
+npx.cmd jest --ci --coverage=false
+git diff --check
+```
+
+Errors, causes and fixes:
+
+- The initial Expo install resolved exactly 55.0.0; `--fix` moved it to 55.0.32 and aligned runtime/dev dependencies. Both commands exited 0. Yarn logged `There appears to be trouble with your network connection. Retrying...`; retries succeeded. Existing RNEUI, vector-icons, prop-types and react-redux peer warnings remain. No dependency overrides or node_modules patches were used.
+- Early Doctor: **17/20 checks passed**, exit 1. Errors: `Found duplicates for expo-constants`, `Unmaintained: expo-av`, and `18 packages out of date`. This run inspected the intermediate dependency tree while `--fix` was still running. Finishing dependency alignment and removing AV resolved all three checks; no checks were disabled or excluded.
+- `expo install expo-video`: `Cannot automatically write to dynamic config at: app.config.js`, exit 1 after successfully installing 55.0.21. Cause: CLI cannot insert the required plugin into dynamic config. Fix: manually add `'expo-video'` to `plugins`.
+- First Jest: `WorkletsError: [Worklets] Native part of Worklets doesn't seem to be initialized.` Cause: Reanimated's mock imports Worklets 0.7's native initialization path. Fix: load the supplied `react-native-worklets/src/mock` in `setupJest.js`, before Reanimated's existing mock.
+- First Jest also failed with `Cannot read properties of undefined (reading 'prototype')` in expo-video's VideoPlayer module. Cause: jest-expo's ExpoVideo mock provides functions but no `VideoPlayer` class. Fix: mock the native module with a `SharedObject` subclass supporting player methods and events. An initial mock targeting `expo-video/src/NativeVideoModule` did not intercept the package's compiled entry point; the same error recurred in a full and a focused run. Corrected the target to `expo-video/build/NativeVideoModule` (stack traces use source maps and show `src`). No application component was mocked out.
+- First full Jest result: **50/59 suites, 160/163 executed tests, 73/76 executed snapshots passed**, exit 1 (42.496 s). After the Worklets fix but before correcting the video mock path: **55/59 suites, 168/171 executed tests, 78/81 executed snapshots passed**, exit 1 (35.378 s).
+- A new fullscreen test initially reported `received value must be a mock or spy function`: it asserted calls on the real `ScreenOrientation.lockAsync` wrapper. Added a call-through Jest spy. That focused run had **5/8 tests passed**, with this assertion failure and two expected video snapshot mismatches; the other new behavior tests passed.
+- After those fixes, full Jest failed only snapshot assertions: `7 snapshots failed from 4 test suites`; **55/59 suites, 177/184 tests, 78/85 snapshots passed**, exit 1 (28.39 s). Reviewed the differences against the installed library code before updating them.
+- Local inspection: `rg` was unavailable, so searches used PowerShell `Select-String`. Read-only Git status warned that the user-profile global ignore file was inaccessible; it still returned repository status. Git also emitted LF/CRLF notices. Neither prevented verification.
+
+Expected library rendering changes (7 snapshots updated across 4 files):
+
+- VimeoVideo (2): AV's wrapper and `ViewManagerAdapter_ExpoVideoView` become expo-video's `ViewManagerAdapter_ExpoVideo`, with `contentFit`, `nativeControls`, a player ID, and the new fullscreen props/callbacks. Loading/error text and dimensions remain unchanged.
+- TrainingPage (2): pager-view 8 adds a root style array and wraps child absolute-fill styles in arrays with zero left/right margins. Confirmed in `PagerView.tsx` and `utils.ios.tsx`.
+- DrillPage (2) and FitnessPage (1): screens 4.23 serializes `fullScreenSwipeEnabled="undefined"` and adds `androidResetScreenShadowStateOnOrientationChangeEnabled`, `sheetDefaultResizeAnimationEnabled`, `sheetShouldOverflowTopInset` and `synchronousShadowStateUpdatesEnabled` defaults. Confirmed in `Screen.tsx`.
+- No snapshots were added or removed, no existing test assertion was removed, and the deterministic copyright-year test was unchanged. The update run passed **59/59 suites and 184/184 tests**, with **7 snapshots updated and 78 unchanged** (28.695 s).
+
+Results:
+
+- Final Jest, `APP_ENV=development`, no update mode: **59/59 suites, 184/184 tests, 85/85 snapshots passed**, exit 0 (25.169 s). Existing `act(...)` and React Native SafeAreaView deprecation warnings remain.
+- Bare `npx.cmd expo-doctor` resolved Doctor 1.21.8: **20/20 checks passed**, exit 0, no issues detected. The temporary `@expo/env` workaround used in earlier steps was not needed. No unresolved checks.
+- Android export: **OK**, exit 0; 2275 modules bundled in 26002 ms, 44 assets, one 6.8 MB Hermes bundle and `metadata.json` in `%TEMP%\expo-casebook-sdk55\android-export`, outside the repository. Metro warned that `NO_COLOR` was ignored because `FORCE_COLOR` was set. No native build or device/emulator runtime test was performed.
+- `git diff --check`: passed. `HUSKY=0` skipped hook installation. No Git add, commit, stash, checkout or push was run.

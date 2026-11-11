@@ -53,7 +53,7 @@ export default {
         backgroundColor: '#ffffff',
       },
     },
-    plugins: ['expo-localization', 'expo-mail-composer'],
+    plugins: ['expo-localization', 'expo-mail-composer', 'expo-video'],
     extra: {
       eas: {
         projectId: 'e2242930-ad3a-4007-afc1-f9c47c174979',

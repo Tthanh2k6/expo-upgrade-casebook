@@ -7,17 +7,29 @@ exports[`<TrainingPage /> When fitness program renders correctly a fitness train
   onPageScroll={[Function]}
   onPageScrollStateChanged={[Function]}
   onPageSelected={[Function]}
+  style={
+    [
+      undefined,
+      null,
+    ]
+  }
 >
   <View
     collapsable={false}
     style={
-      {
-        "bottom": 0,
-        "left": 0,
-        "position": "absolute",
-        "right": 0,
-        "top": 0,
-      }
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "marginLeft": 0,
+          "marginRight": 0,
+        },
+      ]
     }
   >
     <View
@@ -1291,13 +1303,19 @@ exports[`<TrainingPage /> When fitness program renders correctly a fitness train
   <View
     collapsable={false}
     style={
-      {
-        "bottom": 0,
-        "left": 0,
-        "position": "absolute",
-        "right": 0,
-        "top": 0,
-      }
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "marginLeft": 0,
+          "marginRight": 0,
+        },
+      ]
     }
   >
     <View
@@ -2543,17 +2561,29 @@ exports[`<TrainingPage /> When frisbee program renders correctly a frisbee train
   onPageScroll={[Function]}
   onPageScrollStateChanged={[Function]}
   onPageSelected={[Function]}
+  style={
+    [
+      undefined,
+      null,
+    ]
+  }
 >
   <View
     collapsable={false}
     style={
-      {
-        "bottom": 0,
-        "left": 0,
-        "position": "absolute",
-        "right": 0,
-        "top": 0,
-      }
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "marginLeft": 0,
+          "marginRight": 0,
+        },
+      ]
     }
   >
     <View
@@ -3990,13 +4020,19 @@ exports[`<TrainingPage /> When frisbee program renders correctly a frisbee train
   <View
     collapsable={false}
     style={
-      {
-        "bottom": 0,
-        "left": 0,
-        "position": "absolute",
-        "right": 0,
-        "top": 0,
-      }
+      [
+        {
+          "bottom": 0,
+          "left": 0,
+          "position": "absolute",
+          "right": 0,
+          "top": 0,
+        },
+        {
+          "marginLeft": 0,
+          "marginRight": 0,
+        },
+      ]
     }
   >
     <View
