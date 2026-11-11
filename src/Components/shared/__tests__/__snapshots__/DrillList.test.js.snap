@@ -154,7 +154,7 @@ exports[`<DrillList /> renders correctly 1`] = `
   onScrollEndDrag={[Function]}
   removeClippedSubviews={false}
   renderItem={[Function]}
-  scrollEventThrottle={50}
+  scrollEventThrottle={0.0001}
   stickyHeaderIndices={[]}
   viewabilityConfigCallbackPairs={[]}
 >
@@ -529,7 +529,7 @@ exports[`<DrillList /> renders correctly 1`] = `
                 ]
               }
             >
-              
+              
             </Text>
           </View>
           <View
@@ -587,7 +587,7 @@ exports[`<DrillList /> renders correctly 1`] = `
                 ]
               }
             >
-              
+              
             </Text>
           </View>
         </View>

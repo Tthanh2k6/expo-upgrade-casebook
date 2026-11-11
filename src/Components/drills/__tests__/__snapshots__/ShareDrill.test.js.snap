@@ -63,7 +63,7 @@ exports[`<ShareDrill /> renders correctly 1`] = `
       ]
     }
   >
-    
+    
   </Text>
 </View>
 `;
@@ -131,7 +131,7 @@ exports[`<ShareDrill /> renders correctly when light 1`] = `
       ]
     }
   >
-    
+    
   </Text>
 </View>
 `;

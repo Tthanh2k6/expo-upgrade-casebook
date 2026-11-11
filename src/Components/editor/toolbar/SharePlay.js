@@ -24,7 +24,7 @@ const SharePlay = ({ currentPlay }) => {
     <TouchableOpacity onPress={share} testID="shareButton">
       <Ionicons
         name={Platform.select({
-          ios: 'ios-share-outline',
+          ios: 'share-outline',
           default: 'share-social-outline',
         })}
         color={theme.COLOR_PRIMARY_LIGHT}

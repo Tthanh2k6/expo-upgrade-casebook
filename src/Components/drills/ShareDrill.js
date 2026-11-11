@@ -27,7 +27,7 @@ const ShareDrill = ({ drill, light }) => {
     <TouchableOpacity onPress={share} testID="shareButton">
       <Ionicons
         name={Platform.select({
-          ios: 'ios-share-outline',
+          ios: 'share-outline',
           default: 'share-social',
         })}
         style={[styles.icon, lightColor]}

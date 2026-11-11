@@ -414,7 +414,7 @@ exports[`<DrillListPage /> filters the list with searched text 1`] = `
     onScrollEndDrag={[Function]}
     removeClippedSubviews={false}
     renderItem={[Function]}
-    scrollEventThrottle={50}
+    scrollEventThrottle={0.0001}
     stickyHeaderIndices={[]}
     viewabilityConfigCallbackPairs={[]}
   >
@@ -1006,7 +1006,7 @@ exports[`<DrillListPage /> filters the list with searched text 2`] = `
             ]
           }
         >
-          
+          
         </Text>
       </View>
       <View
@@ -1090,7 +1090,7 @@ exports[`<DrillListPage /> filters the list with searched text 2`] = `
             ]
           }
         >
-          
+          
         </Text>
       </View>
     </View>
@@ -1210,7 +1210,7 @@ exports[`<DrillListPage /> filters the list with searched text 2`] = `
                 }
                 testID="iconIcon"
               >
-                
+                
               </Text>
             </View>
           </View>
@@ -1396,7 +1396,7 @@ exports[`<DrillListPage /> filters the list with searched text 2`] = `
     onScrollEndDrag={[Function]}
     removeClippedSubviews={false}
     renderItem={[Function]}
-    scrollEventThrottle={50}
+    scrollEventThrottle={0.0001}
     stickyHeaderIndices={[]}
     viewabilityConfigCallbackPairs={[]}
   >
@@ -1680,7 +1680,7 @@ exports[`<DrillListPage /> filters the list with searched text 3`] = `
             ]
           }
         >
-          
+          
         </Text>
       </View>
       <View
@@ -1764,7 +1764,7 @@ exports[`<DrillListPage /> filters the list with searched text 3`] = `
             ]
           }
         >
-          
+          
         </Text>
       </View>
     </View>
@@ -1884,7 +1884,7 @@ exports[`<DrillListPage /> filters the list with searched text 3`] = `
                 }
                 testID="iconIcon"
               >
-                
+                
               </Text>
             </View>
           </View>
@@ -2011,7 +2011,7 @@ exports[`<DrillListPage /> filters the list with searched text 3`] = `
     onScrollEndDrag={[Function]}
     removeClippedSubviews={false}
     renderItem={[Function]}
-    scrollEventThrottle={50}
+    scrollEventThrottle={0.0001}
     stickyHeaderIndices={[]}
     viewabilityConfigCallbackPairs={[]}
   >
@@ -2838,7 +2838,7 @@ exports[`<DrillListPage /> renders correctly when connected 1`] = `
     onScrollEndDrag={[Function]}
     removeClippedSubviews={false}
     renderItem={[Function]}
-    scrollEventThrottle={50}
+    scrollEventThrottle={0.0001}
     stickyHeaderIndices={[]}
     viewabilityConfigCallbackPairs={[]}
   >
@@ -3537,7 +3537,7 @@ exports[`<DrillListPage /> renders fitness drills sorted by duration 1`] = `
     onScrollEndDrag={[Function]}
     removeClippedSubviews={false}
     renderItem={[Function]}
-    scrollEventThrottle={50}
+    scrollEventThrottle={0.0001}
     stickyHeaderIndices={[]}
     viewabilityConfigCallbackPairs={[]}
   >
@@ -4390,7 +4390,7 @@ exports[`<DrillListPage /> renders frisbee drills sorted by number of players 1`
     onScrollEndDrag={[Function]}
     removeClippedSubviews={false}
     renderItem={[Function]}
-    scrollEventThrottle={50}
+    scrollEventThrottle={0.0001}
     stickyHeaderIndices={[]}
     viewabilityConfigCallbackPairs={[]}
   >

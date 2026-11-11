@@ -191,6 +191,7 @@ exports[`<DrillPage /> renders correctly 1`] = `
               "top": -1,
             }
           }
+          onGestureCancel={[Function]}
           pointerEvents="box-none"
           sheetAllowedDetents="large"
           sheetCornerRadius={-1}
@@ -1154,6 +1155,7 @@ exports[`<DrillPage /> renders correctly a favorite drill 1`] = `
               "top": -1,
             }
           }
+          onGestureCancel={[Function]}
           pointerEvents="box-none"
           sheetAllowedDetents="large"
           sheetCornerRadius={-1}

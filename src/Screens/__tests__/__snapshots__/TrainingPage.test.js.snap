@@ -834,7 +834,7 @@ exports[`<TrainingPage /> When fitness program renders correctly a fitness train
         onScrollEndDrag={[Function]}
         removeClippedSubviews={false}
         renderItem={[Function]}
-        scrollEventThrottle={50}
+        scrollEventThrottle={0.0001}
         stickyHeaderIndices={[]}
         viewabilityConfigCallbackPairs={[]}
       >
@@ -2082,7 +2082,7 @@ exports[`<TrainingPage /> When fitness program renders correctly a fitness train
         onScrollEndDrag={[Function]}
         removeClippedSubviews={false}
         renderItem={[Function]}
-        scrollEventThrottle={50}
+        scrollEventThrottle={0.0001}
         stickyHeaderIndices={[]}
         viewabilityConfigCallbackPairs={[]}
       >
@@ -3433,7 +3433,7 @@ exports[`<TrainingPage /> When frisbee program renders correctly a frisbee train
         onScrollEndDrag={[Function]}
         removeClippedSubviews={false}
         renderItem={[Function]}
-        scrollEventThrottle={50}
+        scrollEventThrottle={0.0001}
         stickyHeaderIndices={[]}
         viewabilityConfigCallbackPairs={[]}
       >
@@ -4846,7 +4846,7 @@ exports[`<TrainingPage /> When frisbee program renders correctly a frisbee train
         onScrollEndDrag={[Function]}
         removeClippedSubviews={false}
         renderItem={[Function]}
-        scrollEventThrottle={50}
+        scrollEventThrottle={0.0001}
         stickyHeaderIndices={[]}
         viewabilityConfigCallbackPairs={[]}
       >

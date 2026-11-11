@@ -23,11 +23,11 @@ exports[`<VimeoVideo /> displays a message on error 1`] = `
     </Text>
   </View>
   <View
-    pointerEvents="box-none"
     style={
       [
         {
           "overflow": "hidden",
+          "pointerEvents": "box-none",
         },
         {
           "height": 250,
@@ -103,11 +103,11 @@ exports[`<VimeoVideo /> loads the video 1`] = `
     </Text>
   </View>
   <View
-    pointerEvents="box-none"
     style={
       [
         {
           "overflow": "hidden",
+          "pointerEvents": "box-none",
         },
         {
           "height": 250,

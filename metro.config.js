@@ -1,13 +1,7 @@
-const { getDefaultConfig } = require('metro-config');
+const { getDefaultConfig } = require('expo/metro-config');
 
-module.exports = (async () => {
-  const {
-    resolver: { assetExts, sourceExts },
-  } = await getDefaultConfig();
+const config = getDefaultConfig(__dirname);
 
-  return {
-    resolver: {
-      sourceExts: [...sourceExts, 'cjs', 'mjs'],
-    },
-  };
-})();
+config.resolver.sourceExts = [...new Set([...config.resolver.sourceExts, 'cjs', 'mjs'])];
+
+module.exports = config;

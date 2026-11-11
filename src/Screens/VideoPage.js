@@ -35,7 +35,7 @@ const VideoPage = (props) => {
           <Button
             onPress={share}
             icon={Platform.select({
-              ios: 'ios-share-outline',
+              ios: 'share-outline',
               default: 'share-social',
             })}
             text={I18n.t('videoPage.share')}
