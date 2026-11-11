@@ -11,3 +11,8 @@ Package manager: yarn 1 (`npx --yes yarn@1.22.22`). Checks per step: `npx jest -
 - expo-doctor: 14/16 checks pass. Failing:
   - SDK 49 targets Android API level 33 or lower; Google Play has required API 34+ since 31 Aug 2024.
   - `expo-updates@0.18.17` (expected ~0.18.19) and `react-native@0.72.6` (expected 0.72.10) do not match SDK 49.
+
+## Pre-upgrade: make the year-dependent test deterministic
+
+- `AboutPage.test.js` now mocks `Date.prototype.getFullYear` to 2024 (mocks restored after each test). No snapshot changed.
+- Jest after the fix: 59/59 suites, 178/178 tests, 85/85 snapshots. Existing console warnings: state updates not wrapped in `act(...)`, non-serializable values in navigation state.
