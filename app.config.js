@@ -15,7 +15,6 @@ export default {
     name: 'Disc In',
     description: 'Empowering Ultimate coaches to prepare appropriate trainings for their teams',
     slug: 'ultimate-app',
-    privacy: 'public',
     platforms: ['ios', 'android'],
     version: '2.0.0',
     githubUrl: 'https://github.com/disc-in/UltimateApp',
@@ -47,6 +46,11 @@ export default {
       package: 'com.discin.discin',
       versionCode: 9,
       permissions: [],
+      splash: {
+        image: './assets/icon.png',
+        resizeMode: 'contain',
+        backgroundColor: '#ffffff',
+      },
     },
     plugins: ['expo-localization'],
     extra: {

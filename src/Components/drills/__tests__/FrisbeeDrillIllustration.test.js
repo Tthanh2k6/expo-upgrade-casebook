@@ -7,7 +7,7 @@ import fixtures from '../../../Fixtures/TestFixtures';
 import FrisbeeDrillIllustration from '../FrisbeeDrillIllustration';
 
 jest.mock('../../shared/VimeoVideo');
-jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
+jest.mock('react-native/src/private/animated/NativeAnimatedHelper');
 
 describe('<FrisbeeDrillIllustration />', () => {
   // fake NavigationContext value data

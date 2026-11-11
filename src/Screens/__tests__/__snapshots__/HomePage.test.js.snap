@@ -120,7 +120,11 @@ exports[`<HomePage /> renders correctly 1`] = `
                 }
               >
                 <Image
-                  source={1}
+                  source={
+                    {
+                      "testUri": "../../../assets/HomePage/frisbeeglove.jpg",
+                    }
+                  }
                   style={
                     [
                       {
@@ -280,7 +284,11 @@ exports[`<HomePage /> renders correctly 1`] = `
                   }
                 >
                   <Image
-                    source={1}
+                    source={
+                      {
+                        "testUri": "../../../assets/HomePage/juniorPrograms.png",
+                      }
+                    }
                     style={
                       [
                         {
@@ -372,7 +380,11 @@ exports[`<HomePage /> renders correctly 1`] = `
                   }
                 >
                   <Image
-                    source={1}
+                    source={
+                      {
+                        "testUri": "../../../assets/HomePage/adultPrograms.png",
+                      }
+                    }
                     style={
                       [
                         {
@@ -466,7 +478,11 @@ exports[`<HomePage /> renders correctly 1`] = `
                 }
               >
                 <Image
-                  source={1}
+                  source={
+                    {
+                      "testUri": "../../../assets/HomePage/ourplays.jpg",
+                    }
+                  }
                   style={
                     [
                       {

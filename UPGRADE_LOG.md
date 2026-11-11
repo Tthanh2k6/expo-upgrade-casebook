@@ -119,3 +119,59 @@ npx.cmd --yes --package=expo-doctor@1.21.7 --package=@expo/env@2.6.0 expo-doctor
 - Local inspection limitations: `rg` was not installed, so source searches used PowerShell `Select-String`; `Get-CimInstance` process/memory inspection returned `Access denied` and was not used further. Neither prevented the upgrade checks.
 - No Git staging, commit, stash, or checkout commands were run. Changes are limited to SDK-aligned dependencies and lockfile, Jest's Gesture Handler setup, the `.expo/` ignore pattern, this log, and `COMMIT_MSG.txt`.
 - `git diff --check`: passed. Git emitted an LF/CRLF notice for this log; read-only status also warned that the user-profile global ignore file was inaccessible. `COMMIT_MSG.txt` has a 61-character first line and four bullet lines.
+
+## SDK 52 (React Native 0.76.9)
+
+- Measured on 11 November 2026, Windows. Upgraded only SDK 51 to 52: Expo 52.0.49, React Native 0.76.9, React 18.3.1, Reanimated 3.16.7, Gesture Handler 2.20.2, screens 4.4.0, pager-view 6.5.1, jest-expo 52.0.6 and Jest 29.7.0.
+- Reviewed the [SDK 52 release/upgrade notes](https://expo.dev/changelog/2024-11-12-sdk-52), [React Native 0.76 release notes](https://reactnative.dev/blog/2024/10/23/release-0.76-new-architecture), and installed library implementation changes. Removed the obsolete `privacy` app-config field. Added an Android splash override using the app icon with `contain` on white, because Android no longer supports full-screen splash images. The existing iOS splash config is retained.
+- No Camera/SQLite legacy APIs, barcode scanner, or notifications APIs are used. There are no native project directories to migrate. React Navigation 6 and the existing architecture configuration remain. The pinned carousel fork, Elements, material bottom tabs, and AV passed the requested tests/export without a replacement; AV Video is deprecated in SDK 52 but still present. Reanimated stays on 3.x; no Worklets package was needed. These checks do not establish device runtime or New Architecture compatibility.
+
+Commands and environment (Node 20.20.2 and Yarn 1 executables/caches reused from the prior steps):
+
+```powershell
+$env:HUSKY = '0'
+$env:EXPO_NO_TELEMETRY = '1'
+$env:APP_ENV = 'development'
+$env:__UNSAFE_EXPO_HOME_DIRECTORY = Join-Path $env:TEMP 'expo-casebook-sdk52\expo'
+$env:npm_config_cache = Join-Path $env:TEMP 'expo-casebook-sdk50\npm'
+$env:YARN_CACHE_FOLDER = Join-Path $env:TEMP 'expo-casebook-sdk50\yarn'
+$yarnBin = Get-ChildItem -Path (Join-Path $env:npm_config_cache '_npx\*\node_modules\.bin\yarn.cmd') | Select-Object -First 1 -ExpandProperty DirectoryName
+$sdkNodeBin = Get-ChildItem -Path (Join-Path $env:npm_config_cache '_npx\*\node_modules\node\bin\node.exe') | Select-Object -First 1 -ExpandProperty DirectoryName
+$env:Path = $sdkNodeBin + ';' + $yarnBin + ';' + $env:Path
+npx.cmd expo install expo@^52.0.0
+npx.cmd expo install --fix
+npx.cmd jest --ci --coverage=false
+npx.cmd expo export --platform android --output-dir (Join-Path $env:TEMP 'expo-casebook-sdk52\android-export')
+```
+
+- Both install commands exited 0. The first resolved Expo 52.0.0; `--fix` installed 52.0.49 and aligned the remaining dependencies. Yarn reported `There appears to be trouble with your network connection. Retrying...`; its retry succeeded. Dependency deprecation and peer warnings were also emitted. `HUSKY=0` skipped hook installation.
+- Initial Jest: `TypeError: _lruCache is not a constructor`; **59/59 suites failed, 0 tests and 0 snapshots executed** (15.057 s). Inspection found a stale nested `@babel/core/node_modules/@babel/helper-compilation-targets` resolving root `lru-cache@10.4.3` despite declaring `^5.1.1`. `yarn why lru-cache` showed the valid version-5 installations elsewhere. `npx.cmd --yes yarn@1.22.22 install --force --frozen-lockfile` exited 0 but did not remove the stale package; the Babel probe and repeat Jest failed with the same error (59 suites, 0 tests).
+- A clean-install deletion command was rejected before execution: `blocked by policy`. A non-destructive backup move to `%TEMP%\expo-casebook-sdk52\node_modules-before-clean-install` then encountered `The specified path, file name, or both are too long` and `Could not find a part of the path`; that cross-drive move was stopped. Moved the remaining dependency directory to the previously absent, ignored `.expo/node_modules` on the same drive, after checking both absolute paths, then ran `npx.cmd --yes yarn@1.22.22 install --frozen-lockfile` successfully (52.15 s). This cleared the Babel error without package overrides or patches. Partial temporary and ignored dependency backups were retained.
+- Two export attempts were interrupted during dependency repair after reporting `Starting Metro Bundler`; neither produced a successful export result. The final export after clean installation completed.
+- First Jest after clean installation: `Cannot find module 'react-native/Libraries/Animated/NativeAnimatedHelper'`. Cause: React Native moved this internal module. Fix: update the existing mock path in 12 tests to `react-native/src/private/animated/NativeAnimatedHelper`. No test assertions were removed.
+- That run also reported `Exceeded timeout of 5000 ms for a test` in Input's error-rendering test and `You are trying to import a file after the Jest environment has been torn down`. It occurred while running the cold Jest suite and export concurrently; resource contention is a possible cause, not established. It did not recur in subsequent full runs. No timeout or assertion was changed. Combined result: **43/59 suites, 126/131 executed tests, 60/64 executed snapshots passed**, exit 1 (137.518 s).
+- After mock-path changes, only snapshot assertions failed: `10 snapshots failed from 8 test suites`; **51/59 suites, 168/178 tests, 75/85 snapshots passed**, exit 1 (55.164 s). Reviewed all differences against the installed libraries: disabled TouchableOpacity now has `focusable={false}`; image mocks serialize `testUri` instead of numeric 1; pager-view renders `LEGACY_RNCViewPager` with `useLegacy={true}`; screens changes sheet defaults and adds an undefined zIndex; Gesture Handler serializes `enabled={false}`. Updated only these expected library rendering changes in eight snapshot files. The deterministic copyright-year test was unchanged.
+
+Verification commands after repair:
+
+```powershell
+# Node 20.20.2, APP_ENV=development, same caches:
+npx.cmd jest --ci --coverage=false
+npx.cmd jest --ci --coverage=false --updateSnapshot
+npx.cmd jest --ci --coverage=false
+npx.cmd expo export --platform android --output-dir (Join-Path $env:TEMP 'expo-casebook-sdk52\android-export')
+
+# Separate PowerShell using system Node 24.15.0, same APP_ENV/caches,
+# with only the cached Yarn executable prepended to PATH:
+npx.cmd expo-doctor
+npx.cmd --yes --package=expo-doctor@1.21.7 --package=@expo/env@2.6.0 expo-doctor
+git diff --check
+```
+
+- Bare Doctor failed before checks with `Cannot find module '@expo/env'`, the same Doctor 1.21.7 packaging issue recorded for SDK 51. Supplying its runtime dependency through the temporary npx package environment let checks run; nothing was added to the app for this workaround.
+- Doctor 1.21.7: **17/18 checks passed**, exit 1. Remaining failure: `Validate packages against React Native Directory package metadata`. It reported unmaintained `@react-native-masked-view/masked-view`, `expo-av`, `react-native-collapsible`, `react-native-flash-message`, `react-native-snap-carousel`; no metadata for `@react-navigation/material-bottom-tabs`, `dotenv`, `firebase`, `react-native-elements`, `watchman`. No checks were excluded or disabled. This maintenance/metadata check remains unresolved in this SDK-only step.
+- Snapshot update: **59/59 suites, 178/178 tests, 10 snapshots updated and 75 unchanged**, exit 0 (20.98 s).
+- Final Jest without update mode: **59/59 suites, 178/178 tests, 85/85 snapshots passed**, exit 0 (18.314 s). Existing act/navigation warnings and library deprecation warnings remain.
+- Android export: **OK**, exit 0, 2025 modules bundled in 51175 ms; 44 assets, one 6.37 MB Hermes bundle and metadata.json exported to `%TEMP%\expo-casebook-sdk52\android-export`, outside the repository. No native build or device runtime test was performed.
+- Inspection/tooling notes: `rg` was unavailable (`The term 'rg' is not recognized`), so searches used PowerShell. One tool orchestration call had `SyntaxError: Invalid or unexpected token` before any command ran and was corrected. Read-only Git status warned that the global ignore file was inaccessible; Git also emitted Windows line-ending notices.
+- No Git add, commit, stash, or checkout commands were run. Changes are limited to SDK dependencies/lockfile, app configuration, the 12 mock paths, eight snapshot files, this log, and COMMIT_MSG.txt. `git diff --check` passed before the documentation update.

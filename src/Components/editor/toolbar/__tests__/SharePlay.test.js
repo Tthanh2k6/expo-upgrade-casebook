@@ -7,7 +7,7 @@ import * as firebase from '../../../../utils/firebase';
 
 import SharePlay from '../SharePlay';
 
-jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
+jest.mock('react-native/src/private/animated/NativeAnimatedHelper');
 
 describe('<SharePlay />', () => {
   afterEach(() => jest.clearAllMocks());

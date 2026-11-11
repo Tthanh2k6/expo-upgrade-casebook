@@ -10,7 +10,7 @@ import { Levels, FrisbeeGoals, DrillTypes } from '../../Fixtures/config';
 
 import ConnectedFrisbeeFilters, { FrisbeeFilters } from '../FrisbeeFilters';
 
-jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
+jest.mock('react-native/src/private/animated/NativeAnimatedHelper');
 
 describe('<FrisbeeFilters />', () => {
   const beginnerDrill = createDrill({

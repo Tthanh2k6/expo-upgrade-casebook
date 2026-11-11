@@ -10,7 +10,7 @@ import { DrillTypes } from '../../Fixtures/config';
 
 import ConnectedDrillListPage, { DrillListPage } from '../DrillListPage';
 
-jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
+jest.mock('react-native/src/private/animated/NativeAnimatedHelper');
 
 describe('<DrillListPage />', () => {
   const navigation = { navigate: jest.fn(), setOptions: jest.fn() };
