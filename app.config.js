@@ -23,11 +23,6 @@ export default {
     scheme: 'discin',
     primaryColor: '#2a9e91',
     icon: './assets/icon.png',
-    splash: {
-      image: './assets/splash.png',
-      resizeMode: 'cover',
-      backgroundColor: '#ffffff',
-    },
     assetBundlePatterns: ['assets/**/*'],
     updates: {
       url: 'https://u.expo.dev/e2242930-ad3a-4007-afc1-f9c47c174979',
@@ -47,13 +42,29 @@ export default {
       package: 'com.discin.discin',
       versionCode: 9,
       permissions: [],
-      splash: {
-        image: './assets/icon.png',
-        resizeMode: 'contain',
-        backgroundColor: '#ffffff',
-      },
     },
-    plugins: ['expo-localization', 'expo-mail-composer', 'expo-video'],
+    plugins: [
+      'expo-localization',
+      'expo-mail-composer',
+      'expo-video',
+      'expo-font',
+      [
+        'expo-splash-screen',
+        {
+          backgroundColor: '#ffffff',
+          ios: {
+            image: './assets/splash.png',
+            resizeMode: 'cover',
+            enableFullScreenImage_legacy: true,
+          },
+          android: {
+            image: './assets/icon.png',
+            resizeMode: 'contain',
+            imageWidth: 200,
+          },
+        },
+      ],
+    ],
     extra: {
       eas: {
         projectId: 'e2242930-ad3a-4007-afc1-f9c47c174979',

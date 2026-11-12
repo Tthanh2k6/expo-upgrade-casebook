@@ -675,9 +675,20 @@ exports[`<HomePage /> renders correctly 1`] = `
                   "selected": true,
                 }
               }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
               accessible={true}
+              collapsable={false}
               focusable={true}
+              onBlur={[Function]}
               onClick={[Function]}
+              onFocus={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -860,6 +871,7 @@ exports[`<HomePage /> renders correctly 1`] = `
                       {
                         "bottom": 0,
                         "left": 0,
+                        "opacity": 1,
                         "position": "absolute",
                         "right": 0,
                         "top": 0,
@@ -978,9 +990,20 @@ exports[`<HomePage /> renders correctly 1`] = `
                   "selected": false,
                 }
               }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
               accessible={true}
+              collapsable={false}
               focusable={true}
+              onBlur={[Function]}
               onClick={[Function]}
+              onFocus={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -1146,6 +1169,7 @@ exports[`<HomePage /> renders correctly 1`] = `
                       {
                         "bottom": 0,
                         "left": 0,
+                        "opacity": 0,
                         "position": "absolute",
                         "right": 0,
                         "top": 0,
@@ -1264,9 +1288,20 @@ exports[`<HomePage /> renders correctly 1`] = `
                   "selected": false,
                 }
               }
+              accessibilityValue={
+                {
+                  "max": undefined,
+                  "min": undefined,
+                  "now": undefined,
+                  "text": undefined,
+                }
+              }
               accessible={true}
+              collapsable={false}
               focusable={true}
+              onBlur={[Function]}
               onClick={[Function]}
+              onFocus={[Function]}
               onResponderGrant={[Function]}
               onResponderMove={[Function]}
               onResponderRelease={[Function]}
@@ -1432,6 +1467,7 @@ exports[`<HomePage /> renders correctly 1`] = `
                       {
                         "bottom": 0,
                         "left": 0,
+                        "opacity": 0,
                         "position": "absolute",
                         "right": 0,
                         "top": 0,

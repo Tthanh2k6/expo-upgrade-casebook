@@ -218,7 +218,7 @@ exports[`<DrillPage /> renders correctly 1`] = `
               "zIndex": undefined,
             }
           }
-          synchronousShadowStateUpdatesEnabled={false}
+          synchronousShadowStateUpdatesEnabled={true}
         >
           <View
             collapsable={false}
@@ -1195,7 +1195,7 @@ exports[`<DrillPage /> renders correctly a favorite drill 1`] = `
               "zIndex": undefined,
             }
           }
-          synchronousShadowStateUpdatesEnabled={false}
+          synchronousShadowStateUpdatesEnabled={true}
         >
           <View
             collapsable={false}

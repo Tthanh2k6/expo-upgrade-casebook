@@ -118,9 +118,7 @@ exports[`<ToggleButton /> renders correctly 1`] = `
                 "flexGrow": 1,
                 "justifyContent": "center",
               },
-              {
-                "borderRadius": 4,
-              },
+              undefined,
             ],
           ]
         }
@@ -228,9 +226,7 @@ exports[`<ToggleButton /> renders correctly 1`] = `
                 "flexGrow": 1,
                 "justifyContent": "center",
               },
-              {
-                "borderRadius": 4,
-              },
+              undefined,
             ],
           ]
         }

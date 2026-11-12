@@ -324,3 +324,65 @@ Results:
 - Bare `npx.cmd expo-doctor` resolved Doctor 1.21.8: **20/20 checks passed**, exit 0, no issues detected. The temporary `@expo/env` workaround used in earlier steps was not needed. No unresolved checks.
 - Android export: **OK**, exit 0; 2275 modules bundled in 26002 ms, 44 assets, one 6.8 MB Hermes bundle and `metadata.json` in `%TEMP%\expo-casebook-sdk55\android-export`, outside the repository. Metro warned that `NO_COLOR` was ignored because `FORCE_COLOR` was set. No native build or device/emulator runtime test was performed.
 - `git diff --check`: passed. `HUSKY=0` skipped hook installation. No Git add, commit, stash, checkout or push was run.
+
+## SDK 56 (React Native 0.85.3)
+
+- Measured on 12 November 2026, Windows, Node 24.15.0 and Yarn 1.22.22. Upgraded only SDK 55 to 56: Expo 56.0.24, React Native 0.85.3, React/react-test-renderer 19.2.3, Reanimated 4.3.1, Worklets 0.8.3, Gesture Handler 2.31.2, screens 4.26.2, pager-view 8.0.1, safe-area-context 5.7.0, expo-video 56.1.4, jest-expo 56.0.6, babel-preset-expo 56.0.21 and TypeScript 6.0.3. The Node minimum and `.nvmrc` were unchanged; the installed React Native supports Node 20.19.4+, 22.13+, 24.3+ and 25+ in its engine ranges.
+- Reviewed the [SDK 56 release notes](https://expo.dev/changelog/sdk-56), [upgrade guide](https://expo.dev/blog/upgrading-to-sdk-56), React Native [0.84](https://reactnative.dev/blog/2026/02/11/react-native-0.84) and [0.85](https://reactnative.dev/blog/2026/04/07/react-native-0.85) notes, and the installed package changelogs/implementations. No native project directories or custom native modules are present. The iOS minimum is now 16.4 and native iOS builds require Xcode 26.4. This app uses React Navigation without Expo Router, so the Router-specific import migration does not apply. Its Vimeo fetch uses `Response.json()`, supported by the new default Expo fetch; there are no app calls to the changed file-system copy/move or Expo system-bar APIs.
+- Added direct `@expo/vector-icons` (resolved 15.1.1) and `expo-font` (56.0.7) dependencies. Expo 56 no longer supplies vector-icons as a dependency. Added `@react-native/jest-preset@0.85.3`, which React Native extracted into a separate package and jest-expo now requires as a peer. Kept the `jest-expo` preset and existing mocks/assertions.
+- Updated Paper 5.11.3 to 5.15.4 because its bottom-navigation and ripple styles used the removed `StyleSheet.absoluteFillObject`; the new release uses `StyleSheet.absoluteFill`. This was found by source inspection, not a thrown test error. The app's RNEUI CheckBox/Input/Slider and snap-carousel usage passed the checks; the removed style API occurs only in their other, unused components (Image/SpeedDial/TabView/Tile and ParallaxImage). No carousel, RNEUI or material-bottom-tabs replacement was needed for the exercised app paths.
+- Migrated the legacy splash config to explicit `expo-splash-screen` plugin options: white background, iOS full-screen cover image, and Android contain icon at 200 dp. The old Android width was confirmed in SDK 55's cached prebuild implementation. SDK 56 moved splash configuration out of prebuild-config; the new plugin does nothing without options. Added the requested `expo-font` plugin, retaining runtime font loading.
+
+Commands and environment (SDK 55 npm/Yarn caches and cached Yarn executable reused):
+
+```powershell
+$env:HUSKY = '0'
+$env:EXPO_NO_TELEMETRY = '1'
+$env:APP_ENV = 'development'
+$env:__UNSAFE_EXPO_HOME_DIRECTORY = Join-Path $env:TEMP 'expo-casebook-sdk56\expo'
+$env:npm_config_cache = Join-Path $env:TEMP 'expo-casebook-sdk55\npm'
+$env:YARN_CACHE_FOLDER = Join-Path $env:TEMP 'expo-casebook-sdk55\yarn'
+$yarnBin = Get-ChildItem -Path (Join-Path $env:npm_config_cache '_npx\*\node_modules\.bin\yarn.cmd') | Select-Object -First 1 -ExpandProperty DirectoryName
+$env:Path = $yarnBin + ';' + $env:Path
+node --version # v24.15.0
+npx.cmd expo install expo@^56.0.0
+npx.cmd expo install --fix
+# Added the splash-screen plugin after the dynamic-config error.
+npx.cmd expo install --fix
+npx.cmd expo install @expo/vector-icons
+npx.cmd --yes yarn@1.22.22 add --dev @react-native/jest-preset@0.85.3 react-test-renderer@19.2.3
+npx.cmd --yes yarn@1.22.22 add react-native-paper@^5.15.4
+npx.cmd jest --ci --coverage=false
+npx.cmd expo-doctor
+npx.cmd expo install expo-font
+# Added expo-font to app.config.js plugins after the dynamic-config error.
+npx.cmd jest --ci --coverage=false --updateSnapshot
+npx.cmd expo-doctor
+npx.cmd expo export --platform android --output-dir (Join-Path $env:TEMP 'expo-casebook-sdk56\android-export')
+npx.cmd jest --ci --coverage=false
+git diff --check
+```
+
+Errors, causes and fixes:
+
+- Initial Expo install resolved exactly 56.0.0, exit 0. The first `--fix` installed Expo 56.0.24 and runtime dependencies, then exited 1: `Cannot automatically write to dynamic config at: app.config.js`, requesting `expo-splash-screen`. Cause: the CLI cannot insert its required plugin into dynamic configuration. Added the plugin, migrated its options as above, and repeated `--fix`; the retry aligned Babel, Jest and TypeScript and exited 0.
+- Yarn reported `jest-expo@56.0.6 has unmet peer dependency "@react-native/jest-preset@^0.85.0"`. Installed the extracted preset and matched react-test-renderer to React before running tests. Other peer warnings remain for RNEUI, react-redux, prop-types, react-refresh and Worklets' `@react-native/metro-config` peer. No dependency overrides, node_modules patches or clean-install repair were used.
+- Initial Doctor 1.21.8: **20/22 checks passed**, exit 1. `Missing peer dependency: expo-font` required by vector-icons was fixed by installing expo-font directly. That install succeeded at the package-manager level but the CLI exited 1 with `Cannot automatically write to dynamic config at: app.config.js`, requesting `expo-font`; added the plugin manually.
+- Doctor's other failure, also present in the final run: `This project uses Hermes V1 with expo@56.0.24, which is affected by a known memory regression.` It detects Hermes 250829098.0.10 and identifies 250829098.0.16 as the first fixed version. Doctor recommends SDK 57 / React Native 0.86.2 or later. This remains unresolved within the requested SDK 56-only step; no check was disabled or excluded and no Hermes/compiler override was applied. The release notes specifically identify Worklets/Reanimated as affected. Tests and export do not measure this device memory regression.
+- Initial Jest: `5 snapshots failed from 4 test suites`; **55/59 suites, 179/184 tests, 80/85 snapshots passed**, exit 1 (66.436 s). Every failure was a snapshot assertion. Reviewed the diffs and library code before updating the five expected rendering changes below.
+- The snapshot update run warned `A worker process has failed to exit gracefully and has been force exited` but exited 0. The warning did not recur in the final run. Existing `act(...)` and React Native SafeAreaView deprecation warnings remain. Metro warned that `NO_COLOR` was ignored because `FORCE_COLOR` was set; export completed.
+- Local inspection: `rg` was unavailable, so searches used PowerShell `Select-String`. Read-only Git commands warned about the inaccessible user-profile global ignore file and LF/CRLF conversion; these did not prevent verification.
+
+Expected library rendering changes (5 snapshots updated across 4 files):
+
+- DrillPage (2) and FitnessPage (1): screens 4.26 changes `synchronousShadowStateUpdatesEnabled` from false to true. Confirmed the new default in `src/flags.ts` and its use in `Screen.tsx`.
+- HomePage (1): Paper's iOS bottom-tab touchable now uses Pressable, adding accessibilityValue, collapsable and focus handlers; its active/inactive icon styles now explicitly include opacity 1/0. Confirmed in `BottomNavigationBar.tsx`.
+- ToggleButton (1): Paper's IconButton uses optional `contentStyle` for the inner TouchableRipple instead of repeating the border-radius object there; the outer button's radius remains. Confirmed in `IconButton.tsx`.
+- No snapshots were added or removed, no test assertion or mock was weakened, and no application component source was changed. The deterministic copyright-year test remains unchanged. Update run: **59/59 suites, 184/184 tests, 5 snapshots updated and 80 unchanged**, exit 0 (41.724 s).
+
+Results:
+
+- Final Jest, `APP_ENV=development`, without update mode: **59/59 suites, 184/184 tests, 85/85 snapshots passed**, exit 0 (28.117 s).
+- Bare `npx.cmd expo-doctor`, Doctor 1.21.8: **21/22 checks passed**, exit 1. Only the SDK 56 Hermes V1 regression check remains; dependency, peer and app-config checks pass.
+- Android export: **OK**, exit 0; 2300 modules bundled in 29428 ms, 44 assets, one 6.1 MB Hermes bundle and `metadata.json` in `%TEMP%\expo-casebook-sdk56\android-export`, outside the repository. No native build or device/emulator runtime test was performed.
+- `git diff --check`: passed. Wrote `COMMIT_MSG.txt`. `HUSKY=0` skipped hook installation. No Git add, commit, stash, checkout or push was run.
