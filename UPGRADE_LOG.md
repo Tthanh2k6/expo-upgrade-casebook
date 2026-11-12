@@ -386,3 +386,48 @@ Results:
 - Bare `npx.cmd expo-doctor`, Doctor 1.21.8: **21/22 checks passed**, exit 1. Only the SDK 56 Hermes V1 regression check remains; dependency, peer and app-config checks pass.
 - Android export: **OK**, exit 0; 2300 modules bundled in 29428 ms, 44 assets, one 6.1 MB Hermes bundle and `metadata.json` in `%TEMP%\expo-casebook-sdk56\android-export`, outside the repository. No native build or device/emulator runtime test was performed.
 - `git diff --check`: passed. Wrote `COMMIT_MSG.txt`. `HUSKY=0` skipped hook installation. No Git add, commit, stash, checkout or push was run.
+
+## SDK 57 (React Native 0.86.3)
+
+- Measured on 12 November 2026, Windows, Node 24.15.0 and Yarn 1.22.22. Upgraded only SDK 56 to 57: Expo 57.0.32, React Native 0.86.3, Reanimated 4.5.1, Worklets 0.10.1, Gesture Handler 2.32.0, pager-view 8.0.2, expo-video 57.0.5, jest-expo 57.0.6, babel-preset-expo 57.0.17 and @react-native/jest-preset 0.86.3. React and react-test-renderer remain 19.2.3. The Node minimum and `.nvmrc` remain compatible with React Native's declared engine range.
+- Reviewed the [SDK 57 release/upgrade notes](https://expo.dev/changelog/sdk-57), [SDK 57 changelog](https://github.com/expo/expo/blob/sdk-57/CHANGELOG.md), [React Native 0.86 notes](https://reactnative.dev/blog/2026/06/11/react-native-0.86), and installed package metadata/implementations. The app has no native project directories, custom Expo native modules, Expo UI usage, or server-side font context calls. The changed prebuild cleaning default, native JSI error types and removed `expo-font` server API require no app changes here. No prebuild or native build was run.
+- Reviewed [Reanimated 4.5](https://github.com/software-mansion/react-native-reanimated/releases/tag/4.5.0), [Worklets 0.10](https://github.com/software-mansion/react-native-reanimated/releases/tag/worklets-0.10.0) and [Gesture Handler 2.32](https://github.com/software-mansion/react-native-gesture-handler/releases/tag/v2.32.0) notes. Reanimated 4.5 requires Worklets 0.10; both are aligned by Expo. This app does not configure the removed Worklets `workletizableModules` option or bundle mode. Existing Babel and native Jest mocks worked unchanged.
+- No application source, app config, test assertions or snapshots changed. The existing snap-carousel fork, RNEUI and material bottom tabs passed the requested tests/export without replacement. AV was already replaced by expo-video in SDK 55. These checks do not establish device runtime compatibility.
+
+Commands and environment (SDK 55 npm/Yarn caches and cached Yarn executable reused):
+
+```powershell
+$env:HUSKY = '0'
+$env:EXPO_NO_TELEMETRY = '1'
+$env:APP_ENV = 'development'
+$env:__UNSAFE_EXPO_HOME_DIRECTORY = Join-Path $env:TEMP 'expo-casebook-sdk57\expo'
+$env:npm_config_cache = Join-Path $env:TEMP 'expo-casebook-sdk55\npm'
+$env:YARN_CACHE_FOLDER = Join-Path $env:TEMP 'expo-casebook-sdk55\yarn'
+$yarnBin = Get-ChildItem -Path (Join-Path $env:npm_config_cache '_npx\*\node_modules\.bin\yarn.cmd') | Select-Object -First 1 -ExpandProperty DirectoryName
+$env:Path = $yarnBin + ';' + $env:Path
+node --version # v24.15.0
+npx.cmd expo install expo@^57.0.0
+npx.cmd expo install --fix
+npx.cmd --yes yarn@1.22.22 add --dev @react-native/jest-preset@0.86.3
+npx.cmd jest --ci --coverage=false
+npx.cmd expo-doctor
+npx.cmd expo export --platform android --output-dir (Join-Path $env:TEMP 'expo-casebook-sdk57\android-export')
+git diff --check
+```
+
+Errors, warnings, causes and fixes:
+
+- Both Expo install commands exited 0. The first installed exactly 57.0.0; `--fix` installed 57.0.32 and aligned the remaining SDK dependencies. The first install reported `There appears to be trouble with your network connection. Retrying...`; Yarn retried successfully. `HUSKY=0` skipped hook installation.
+- Yarn reported `jest-expo@57.0.6 has incorrect peer dependency "@react-native/jest-preset@^0.86.3"`. Cause: the explicit preset dependency still targeted React Native 0.85.3 after `expo install --fix`. Fix: update it to 0.86.3, matching React Native's exact peer and jest-expo's range, before running tests. The Yarn command exited 0.
+- Other Yarn peer warnings remain for RNEUI/safe-area-context, vector-icons, prop-types, react-redux/React, react-refresh and Worklets' `@react-native/metro-config` peer. No overrides or node_modules patches were applied. Installation also emitted Node's `DEP0151` warning about Worklets' extensionless `main` entry; it did not fail the command.
+- Jest emitted `An update to Icon inside a test was not wrapped in act(...)`, navigation serialization warnings, and SafeAreaView/InteractionManager deprecation warnings. InteractionManager's stack points into React Navigation's Card. No test failed and no snapshot update was run.
+- Metro warned `The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.` Export succeeded; no code change was needed for this environment warning.
+- Local inspection: `rg` was unavailable (`The term 'rg' is not recognized`), so searches used PowerShell `Select-String`. Reading `node_modules/expo/CHANGELOG.md` reported `Cannot find path`; that file is not shipped there, so the SDK changelog was read from Expo's repository. Read-only Git status warned that the user-profile global ignore file was inaccessible. None prevented verification.
+
+Results:
+
+- Jest, `APP_ENV=development`, without update mode: **59/59 suites, 184/184 tests, 85/85 snapshots passed**, exit 0 (56.311 s). **No snapshots changed.** Full output was captured in `%TEMP%\expo-casebook-sdk57\jest-initial.log`.
+- Bare `npx.cmd expo-doctor`, Doctor 1.21.8: **21/21 checks passed**, exit 0, no issues detected. No check was disabled or excluded, and no temporary dependency workaround was needed. The SDK 56 Hermes regression warning is gone; the installed Hermes compiler is 250829098.0.17. No device memory measurement was performed.
+- Android export: **OK**, exit 0; 2322 modules bundled in 27408 ms, 44 assets, one 6 MB Hermes bundle and `metadata.json` in `%TEMP%\expo-casebook-sdk57\android-export`, outside the repository. No native build or device/emulator runtime test was performed.
+- Changes are limited to SDK-aligned dependencies, `yarn.lock`, this log and `COMMIT_MSG.txt`. No Git add, commit, stash, checkout or push was run.
+- `git diff --check`: passed. Git emitted an LF/CRLF notice for this log. `COMMIT_MSG.txt` has a 47-character subject and five bullet lines.
