@@ -50,7 +50,7 @@ describe('<ProgramListPage />', () => {
     fireEvent.press(getByText('1 - First Training'));
 
     await waitFor(() => {
-      expect(navigation.navigate).toBeCalledWith('TrainingPage', { program: program2, training: firstTraining });
+      expect(navigation.navigate).toHaveBeenCalledWith('TrainingPage', { program: program2, training: firstTraining });
     });
   });
 });

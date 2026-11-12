@@ -62,7 +62,7 @@ describe('<TrainingPage />', () => {
 
       await fireEvent.press(queryByTestId('goToPrev1'));
 
-      expect(mockedSetPage).toBeCalledWith(0);
+      expect(mockedSetPage).toHaveBeenCalledWith(0);
     });
 
     it('links to next training within program', async () => {
@@ -84,7 +84,7 @@ describe('<TrainingPage />', () => {
 
       await fireEvent.press(queryByTestId('goToNext0'));
 
-      expect(mockedSetPage).toBeCalledWith(1);
+      expect(mockedSetPage).toHaveBeenCalledWith(1);
     });
 
     it('links to drill page for fitness', async () => {
@@ -98,7 +98,7 @@ describe('<TrainingPage />', () => {
 
       await fireEvent.press(queryByText(trainingFirstDrill.title));
 
-      expect(navigation.navigate).toBeCalledWith('DrillPage', { id: trainingFirstDrill.id });
+      expect(navigation.navigate).toHaveBeenCalledWith('DrillPage', { id: trainingFirstDrill.id });
     });
   });
 
@@ -132,7 +132,11 @@ describe('<TrainingPage />', () => {
 
       await fireEvent.press(queryByText(trainingFirstDrill.title));
 
-      expect(navigation.navigate).toBeCalledWith('DrillPageMinimal', { drill: trainingFirstDrill, training, program });
+      expect(navigation.navigate).toHaveBeenCalledWith('DrillPageMinimal', {
+        drill: trainingFirstDrill,
+        training,
+        program,
+      });
     });
 
     it('starts training links to first drill for frisbee', async () => {
@@ -144,7 +148,11 @@ describe('<TrainingPage />', () => {
 
       await fireEvent.press(queryByTestId('start0'));
 
-      expect(navigation.navigate).toBeCalledWith('DrillPageMinimal', { drill: training.drills[0], training, program });
+      expect(navigation.navigate).toHaveBeenCalledWith('DrillPageMinimal', {
+        drill: training.drills[0],
+        training,
+        program,
+      });
     });
   });
 });

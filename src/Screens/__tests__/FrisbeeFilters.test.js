@@ -48,7 +48,7 @@ describe('<FrisbeeFilters />', () => {
         initialData: [beginnerDrill, advancedDrill],
       },
     };
-    const navigation = { setOptions: jest.fn(), navigate: jest.fn() };
+    const navigation = { setOptions: jest.fn(), popTo: jest.fn() };
     const { toJSON } = render(<FrisbeeFilters route={route} navigation={navigation} favoriteDrills={[]} />);
     expect(toJSON()).toMatchSnapshot();
   });
@@ -56,7 +56,7 @@ describe('<FrisbeeFilters />', () => {
   describe('filtering', () => {
     it('filters drills by level', async () => {
       const drills = [beginnerDrill, intermediateDrill, advancedDrill];
-      const navigate = jest.fn();
+      const popTo = jest.fn();
 
       const DummyScreen = (props) => null;
       const Stack = createStackNavigator();
@@ -76,7 +76,7 @@ describe('<FrisbeeFilters />', () => {
                   }}
                   listeners={({ navigation }) => ({
                     transitionStart: (e) => {
-                      navigation.navigate = navigate;
+                      navigation.popTo = popTo;
                     },
                   })}
                 />
@@ -110,7 +110,7 @@ describe('<FrisbeeFilters />', () => {
 
       await fireEvent.press(getByText('See 1 drill'));
 
-      expect(navigate).toBeCalledWith('DrillListPage', {
+      expect(popTo).toHaveBeenCalledWith('DrillListPage', {
         type: DrillTypes.FRISBEE,
         currentFilters: {
           selectedFavorites: false,
@@ -129,7 +129,7 @@ describe('<FrisbeeFilters />', () => {
       const throwingDrill = createDrill({ id: 3, goals: [FrisbeeGoals.THROWING] });
       const handlingDefenseDrill = createDrill({ id: 4, goals: [FrisbeeGoals.DEFENSE, FrisbeeGoals.HANDLING] });
       const drills = [defenseDrill, handlingDrill, throwingDrill, handlingDefenseDrill];
-      const navigate = jest.fn();
+      const popTo = jest.fn();
 
       const DummyScreen = (props) => null;
       const Stack = createStackNavigator();
@@ -149,7 +149,7 @@ describe('<FrisbeeFilters />', () => {
                   }}
                   listeners={({ navigation }) => ({
                     transitionStart: (e) => {
-                      navigation.navigate = navigate;
+                      navigation.popTo = popTo;
                     },
                   })}
                 />
@@ -185,7 +185,7 @@ describe('<FrisbeeFilters />', () => {
 
       await fireEvent.press(getByText('See 2 drills'));
 
-      expect(navigate).toBeCalledWith('DrillListPage', {
+      expect(popTo).toHaveBeenCalledWith('DrillListPage', {
         type: DrillTypes.FRISBEE,
         currentFilters: {
           selectedFavorites: false,
@@ -203,7 +203,7 @@ describe('<FrisbeeFilters />', () => {
       const twoPeopleDrill = createDrill({ id: 2, minimalPlayersNumber: 2 });
       const tenPeopleDrill = createDrill({ id: 3, minimalPlayersNumber: 10 });
       const drills = [onePersonDrill, twoPeopleDrill, tenPeopleDrill];
-      const navigate = jest.fn();
+      const popTo = jest.fn();
 
       const DummyScreen = (props) => null;
       const Stack = createStackNavigator();
@@ -223,7 +223,7 @@ describe('<FrisbeeFilters />', () => {
                   }}
                   listeners={({ navigation }) => ({
                     transitionStart: (e) => {
-                      navigation.navigate = navigate;
+                      navigation.popTo = popTo;
                     },
                   })}
                 />
@@ -245,7 +245,7 @@ describe('<FrisbeeFilters />', () => {
 
       await fireEvent.press(getByText('See 2 drills'));
 
-      expect(navigate).toBeCalledWith('DrillListPage', {
+      expect(popTo).toHaveBeenCalledWith('DrillListPage', {
         type: DrillTypes.FRISBEE,
         currentFilters: {
           selectedFavorites: false,
@@ -260,7 +260,7 @@ describe('<FrisbeeFilters />', () => {
 
     it('filters favorite drills', async () => {
       const drills = [beginnerDrill, intermediateDrill, advancedDrill];
-      const navigate = jest.fn();
+      const popTo = jest.fn();
 
       const DummyScreen = (props) => null;
       const Stack = createStackNavigator();
@@ -284,7 +284,7 @@ describe('<FrisbeeFilters />', () => {
                   }}
                   listeners={({ navigation }) => ({
                     transitionStart: (e) => {
-                      navigation.navigate = navigate;
+                      navigation.popTo = popTo;
                     },
                   })}
                 />
@@ -304,7 +304,7 @@ describe('<FrisbeeFilters />', () => {
 
       await fireEvent.press(getByText('See 1 drill'));
 
-      expect(navigate).toBeCalledWith('DrillListPage', {
+      expect(popTo).toHaveBeenCalledWith('DrillListPage', {
         type: DrillTypes.FRISBEE,
         currentFilters: {
           selectedFavorites: true,
@@ -319,7 +319,7 @@ describe('<FrisbeeFilters />', () => {
 
     it('filters custom drills', async () => {
       const drills = [beginnerDrill, customDrill];
-      const navigate = jest.fn();
+      const popTo = jest.fn();
 
       const DummyScreen = (props) => null;
       const Stack = createStackNavigator();
@@ -339,7 +339,7 @@ describe('<FrisbeeFilters />', () => {
                   }}
                   listeners={({ navigation }) => ({
                     transitionStart: (e) => {
-                      navigation.navigate = navigate;
+                      navigation.popTo = popTo;
                     },
                   })}
                 />
@@ -359,7 +359,7 @@ describe('<FrisbeeFilters />', () => {
 
       await fireEvent.press(getByText('See 1 drill'));
 
-      expect(navigate).toBeCalledWith('DrillListPage', {
+      expect(popTo).toHaveBeenCalledWith('DrillListPage', {
         type: DrillTypes.FRISBEE,
         currentFilters: {
           selectedFavorites: false,
@@ -379,7 +379,7 @@ describe('<FrisbeeFilters />', () => {
       const twoPeopleDrill = createDrill({ id: 2, minimalPlayersNumber: 2 });
       const tenPeopleDrill = createDrill({ id: 3, minimalPlayersNumber: 10 });
       const drills = [onePersonDrill, twoPeopleDrill, tenPeopleDrill];
-      const navigate = jest.fn();
+      const popTo = jest.fn();
 
       const DummyScreen = (props) => null;
       const Stack = createStackNavigator();
@@ -399,7 +399,7 @@ describe('<FrisbeeFilters />', () => {
                   }}
                   listeners={({ navigation }) => ({
                     transitionStart: (e) => {
-                      navigation.navigate = navigate;
+                      navigation.popTo = popTo;
                     },
                   })}
                 />
@@ -426,7 +426,7 @@ describe('<FrisbeeFilters />', () => {
 
       await fireEvent.press(getByText('See 3 drills'));
 
-      expect(navigate).toBeCalledWith('DrillListPage', {
+      expect(popTo).toHaveBeenCalledWith('DrillListPage', {
         type: DrillTypes.FRISBEE,
         currentFilters: {
           selectedFavorites: false,

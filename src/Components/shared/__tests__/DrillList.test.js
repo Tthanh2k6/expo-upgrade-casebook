@@ -36,7 +36,7 @@ describe('<DrillList />', () => {
     );
 
     fireEvent.press(getByTestId('editButton'));
-    await waitFor(() => expect(navigate).toBeCalledWith('DrillEditorPage', { currentDrill: customDrill }));
+    await waitFor(() => expect(navigate).toHaveBeenCalledWith('DrillEditorPage', { currentDrill: customDrill }));
   });
 
   it('does not trigger delete on cancel', async () => {

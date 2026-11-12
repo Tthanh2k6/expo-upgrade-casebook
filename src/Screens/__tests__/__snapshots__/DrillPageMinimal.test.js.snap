@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`<DrillPageMinimal /> renders correctly with a training and a drill 1`] = `
 [
@@ -20,7 +20,7 @@ exports[`<DrillPageMinimal /> renders correctly with a training and a drill 1`] 
       }
     >
       <View>
-        <RCTSafeAreaView
+        <SafeAreaView
           style={
             {
               "flex": 1,
@@ -1791,7 +1791,7 @@ exports[`<DrillPageMinimal /> renders correctly with a training and a drill 1`] 
               </View>
             </View>
           </RCTScrollView>
-        </RCTSafeAreaView>
+        </SafeAreaView>
         <View
           style={
             {

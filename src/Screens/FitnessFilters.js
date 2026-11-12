@@ -107,7 +107,7 @@ export class FitnessFilters extends React.Component {
   }
 
   validateFilters() {
-    this.props.navigation.navigate(this.props.route.params.previousScreen, {
+    this.props.navigation.popTo(this.props.route.params.previousScreen, {
       type: this.props.route.params.previousType,
       currentFilters: this.state,
     });

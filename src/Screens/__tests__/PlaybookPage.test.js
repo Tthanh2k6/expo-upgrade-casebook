@@ -49,7 +49,7 @@ describe('<PlaybookPage />', () => {
     );
     await fireEvent.press(getByText(play.title));
 
-    expect(navigation.navigate).toBeCalledWith('PlayEditorPage', { currentPlay: play });
+    expect(navigation.navigate).toHaveBeenCalledWith('PlayEditorPage', { currentPlay: play });
   });
 
   it('creates a new play and links to drill page', async () => {
@@ -73,7 +73,7 @@ describe('<PlaybookPage />', () => {
       title: 'Unnamed play',
       uuid: '123456',
     };
-    expect(navigation.navigate).toBeCalledWith('PlayEditorPage', { currentPlay: expectedPlay });
-    expect(savePlay).toBeCalledWith(expectedPlay);
+    expect(navigation.navigate).toHaveBeenCalledWith('PlayEditorPage', { currentPlay: expectedPlay });
+    expect(savePlay).toHaveBeenCalledWith(expectedPlay);
   });
 });

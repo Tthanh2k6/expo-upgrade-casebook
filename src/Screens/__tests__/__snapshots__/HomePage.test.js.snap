@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`<HomePage /> renders correctly 1`] = `
 <RNCSafeAreaProvider
@@ -31,7 +31,7 @@ exports[`<HomePage /> renders correctly 1`] = `
             "flex": 1,
           },
           {
-            "backgroundColor": "rgb(242, 242, 242)",
+            "backgroundColor": "rgba(255, 251, 254, 1)",
           },
         ]
       }

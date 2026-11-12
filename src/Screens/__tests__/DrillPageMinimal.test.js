@@ -12,7 +12,7 @@ jest.mock('react-native/src/private/animated/NativeAnimatedHelper');
 jest.mock('../../Components/shared/VimeoVideo');
 
 describe('<DrillPageMinimal />', () => {
-  const navigation = { navigate: jest.fn(), setOptions: jest.fn() };
+  const navigation = { navigate: jest.fn(), popTo: jest.fn(), setOptions: jest.fn() };
   const program = fixtures.programs[1];
   const training = program.trainings[1];
   const drill = training.drills[0];
@@ -41,7 +41,7 @@ describe('<DrillPageMinimal />', () => {
     await fireEvent.press(getByText('Next drill'));
 
     const secondDrill = training.drills[1];
-    expect(navigation.navigate).toBeCalledWith('DrillPageMinimal', { drill: secondDrill, training, program });
+    expect(navigation.navigate).toHaveBeenCalledWith('DrillPageMinimal', { drill: secondDrill, training, program });
   });
 
   it('links to programs list page when finished and is last drill', async () => {
@@ -62,7 +62,11 @@ describe('<DrillPageMinimal />', () => {
 
     await fireEvent.press(getByText('Finish Training!'));
 
-    expect(completeTraining).toBeCalledWith({ training, program });
-    expect(navigation.navigate).toBeCalledWith('ProgramListPage', { activeProgramId: program.id, type: program.type });
+    expect(completeTraining).toHaveBeenCalledWith({ training, program });
+    expect(navigation.popTo).toHaveBeenCalledWith(
+      'ProgramListPage',
+      { activeProgramId: program.id, type: program.type },
+      { merge: true },
+    );
   });
 });

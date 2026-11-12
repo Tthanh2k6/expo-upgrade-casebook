@@ -81,7 +81,7 @@ describe('<DrillListPage />', () => {
 
     await fireEvent.press(getByText('Hot Box'));
 
-    expect(navigation.navigate).toBeCalledWith('DrillPage', { id: drill.id });
+    expect(navigation.navigate).toHaveBeenCalledWith('DrillPage', { id: drill.id });
   });
 
   it('links to the right filters view on press on the button', async () => {
@@ -111,7 +111,7 @@ describe('<DrillListPage />', () => {
 
     await fireEvent.press(getByTestId('filterButton'));
 
-    expect(navigate).toBeCalledWith('FrisbeeFilters', {
+    expect(navigate).toHaveBeenCalledWith('FrisbeeFilters', {
       initialData: store.getState().drills.filter((drill) => drill.type === DrillTypes.FRISBEE),
       previousScreen: 'DrillListPage',
       previousType: DrillTypes.FRISBEE,

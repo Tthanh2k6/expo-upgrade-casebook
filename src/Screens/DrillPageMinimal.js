@@ -18,7 +18,7 @@ export const DrillPageMinimal = (props) => {
   const { drill, training, program } = route.params;
 
   const currentDrillIndex = training.drills.findIndex(({ id }) => id === drill.id);
-  if (currentDrillIndex === -1) navigation.navigate('TrainingPage', { training, program });
+  if (currentDrillIndex === -1) navigation.popTo('TrainingPage', { training, program });
   const isLastTraining = currentDrillIndex === training.drills.length - 1;
 
   const goToNextDrill = useCallback(() => {
@@ -28,7 +28,7 @@ export const DrillPageMinimal = (props) => {
 
   const finishTraining = useCallback(() => {
     completeTraining({ training, program });
-    navigation.navigate('ProgramListPage', { activeProgramId: program.id, type: program.type });
+    navigation.popTo('ProgramListPage', { activeProgramId: program.id, type: program.type }, { merge: true });
   }, [training, navigation, program, completeTraining]);
 
   useLayoutEffect(() => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 import { NavigationContext } from '@react-navigation/native';
 import { VideoView } from 'expo-video';
-import NativeVideoModule from 'expo-video/build/NativeVideoModule';
+import NativeVideoModule from 'expo-video/build/ExpoVideo';
 import * as ScreenOrientation from 'expo-screen-orientation';
 
 import VimeoVideo from '../VimeoVideo';

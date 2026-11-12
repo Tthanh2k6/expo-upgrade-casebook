@@ -68,7 +68,7 @@ describe('<DrillPage />', () => {
 
     fireEvent.press(getByTestId('favoriteButton'));
 
-    await waitFor(() => expect(toggleFavorite).toBeCalledWith(drill));
+    await waitFor(() => expect(toggleFavorite).toHaveBeenCalledWith(drill));
   });
 
   it('triggers share', async () => {
@@ -123,6 +123,6 @@ describe('<DrillPage />', () => {
     );
     fireEvent.press(getByTestId('startButton'));
 
-    expect(navigate).toBeCalledWith('FitnessPage', { drill });
+    expect(navigate).toHaveBeenCalledWith('FitnessPage', { drill });
   });
 });

@@ -17,7 +17,7 @@ export const DrillEditorAnimationPage = ({ navigation, route }) => {
   };
 
   const handleSubmit = () => {
-    navigation.navigate('DrillEditorPage');
+    navigation.popTo('DrillEditorPage', undefined, { merge: true });
   };
 
   useLayoutEffect(() => {

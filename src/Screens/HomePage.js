@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from 'react';
 import { StyleSheet, View, Text, ImageBackground, TouchableHighlight, TouchableOpacity } from 'react-native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import I18n from '../utils/i18n';

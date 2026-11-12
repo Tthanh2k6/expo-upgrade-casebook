@@ -18,14 +18,14 @@ describe('<DrillEditorAnimationPage />', () => {
   };
 
   it('renders correctly', async () => {
-    const navigation = { navigate: jest.fn(), setOptions: jest.fn() };
+    const navigation = { popTo: jest.fn(), setOptions: jest.fn() };
 
     const { toJSON } = render(<DrillEditorAnimationPage route={route} navigation={navigation} />);
     expect(toJSON()).toMatchSnapshot();
   });
 
   it('goes back to the drill editor', async () => {
-    const navigate = jest.fn();
+    const popTo = jest.fn();
 
     const Stack = createStackNavigator();
     const { getByTestId } = await waitFor(() =>
@@ -38,7 +38,7 @@ describe('<DrillEditorAnimationPage />', () => {
               initialParams={{ route }}
               listeners={({ navigation }) => ({
                 transitionStart: (e) => {
-                  navigation.navigate = navigate;
+                  navigation.popTo = popTo;
                 },
               })}
             />
@@ -49,6 +49,6 @@ describe('<DrillEditorAnimationPage />', () => {
 
     fireEvent.press(getByTestId('validateButton'));
 
-    expect(navigate).toBeCalledWith('DrillEditorPage');
+    expect(popTo).toHaveBeenCalledWith('DrillEditorPage', undefined, { merge: true });
   });
 });

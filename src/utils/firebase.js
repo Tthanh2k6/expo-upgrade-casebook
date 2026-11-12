@@ -1,4 +1,4 @@
-import { Platform, InteractionManager } from 'react-native';
+import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 import { initializeApp, setLogLevel } from 'firebase/app';
 import { getDatabase, ref, set, child, get } from 'firebase/database';
@@ -15,7 +15,7 @@ if (Platform.OS === 'android') {
   const runTask = (id, fn, ttl, args) => {
     const waitingTime = ttl - Date.now();
     if (waitingTime <= 1) {
-      InteractionManager.runAfterInteractions(() => {
+      requestIdleCallback(() => {
         if (!timerFix[id]) {
           return;
         }

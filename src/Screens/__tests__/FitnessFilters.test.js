@@ -26,7 +26,7 @@ describe('<FitnessFilters />', () => {
         initialData: [beginnerDrill, advancedDrill],
       },
     };
-    const navigation = { setOptions: jest.fn(), navigate: jest.fn() };
+    const navigation = { setOptions: jest.fn(), popTo: jest.fn() };
     const { toJSON } = render(<FitnessFilters route={route} navigation={navigation} favoriteDrills={[]} />);
     expect(toJSON()).toMatchSnapshot();
   });
@@ -34,7 +34,7 @@ describe('<FitnessFilters />', () => {
   describe('filtering', () => {
     it('filters drills by level', async () => {
       const drills = [beginnerDrill, intermediateDrill, advancedDrill];
-      const navigate = jest.fn();
+      const popTo = jest.fn();
 
       const DummyScreen = (props) => null;
       const Stack = createStackNavigator();
@@ -54,7 +54,7 @@ describe('<FitnessFilters />', () => {
                   }}
                   listeners={({ navigation }) => ({
                     transitionStart: (e) => {
-                      navigation.navigate = navigate;
+                      navigation.popTo = popTo;
                     },
                   })}
                 />
@@ -88,7 +88,7 @@ describe('<FitnessFilters />', () => {
 
       await fireEvent.press(getByText('See 1 drill'));
 
-      expect(navigate).toBeCalledWith('DrillListPage', {
+      expect(popTo).toHaveBeenCalledWith('DrillListPage', {
         type: DrillTypes.FITNESS,
         currentFilters: {
           selectedFavorites: false,
@@ -108,7 +108,7 @@ describe('<FitnessFilters />', () => {
       const moderateDrill = createDrill({ id: 2, intensity: Intensities.MODERATE });
       const highDrill = createDrill({ id: 3, intensity: Intensities.HIGH });
       const drills = [lowDrill, moderateDrill, highDrill];
-      const navigate = jest.fn();
+      const popTo = jest.fn();
 
       const DummyScreen = (props) => null;
       const Stack = createStackNavigator();
@@ -128,7 +128,7 @@ describe('<FitnessFilters />', () => {
                   }}
                   listeners={({ navigation }) => ({
                     transitionStart: (e) => {
-                      navigation.navigate = navigate;
+                      navigation.popTo = popTo;
                     },
                   })}
                 />
@@ -162,7 +162,7 @@ describe('<FitnessFilters />', () => {
 
       await fireEvent.press(getByText('See 1 drill'));
 
-      expect(navigate).toBeCalledWith('DrillListPage', {
+      expect(popTo).toHaveBeenCalledWith('DrillListPage', {
         type: DrillTypes.FITNESS,
         currentFilters: {
           selectedFavorites: false,
@@ -182,7 +182,7 @@ describe('<FitnessFilters />', () => {
       const basicEquimentDrill = createDrill({ id: 2, equipmentLabel: EquipmentLabels.BASIC });
       const fullEquipmentDrill = createDrill({ id: 3, equipmentLabel: EquipmentLabels.FULL });
       const drills = [noEquimentDrill, basicEquimentDrill, fullEquipmentDrill];
-      const navigate = jest.fn();
+      const popTo = jest.fn();
 
       const DummyScreen = (props) => null;
       const Stack = createStackNavigator();
@@ -202,7 +202,7 @@ describe('<FitnessFilters />', () => {
                   }}
                   listeners={({ navigation }) => ({
                     transitionStart: (e) => {
-                      navigation.navigate = navigate;
+                      navigation.popTo = popTo;
                     },
                   })}
                 />
@@ -236,7 +236,7 @@ describe('<FitnessFilters />', () => {
 
       await fireEvent.press(getByText('See 1 drill'));
 
-      expect(navigate).toBeCalledWith('DrillListPage', {
+      expect(popTo).toHaveBeenCalledWith('DrillListPage', {
         type: DrillTypes.FITNESS,
         currentFilters: {
           selectedFavorites: false,
@@ -256,7 +256,7 @@ describe('<FitnessFilters />', () => {
       const offDrill = createDrill({ id: 2, seasonTiming: SeasonTimings.OFF_SEASON });
       const inDrill = createDrill({ id: 3, seasonTiming: SeasonTimings.IN_SEASON });
       const drills = [offDrill, preDrill, inDrill];
-      const navigate = jest.fn();
+      const popTo = jest.fn();
 
       const DummyScreen = (props) => null;
       const Stack = createStackNavigator();
@@ -276,7 +276,7 @@ describe('<FitnessFilters />', () => {
                   }}
                   listeners={({ navigation }) => ({
                     transitionStart: (e) => {
-                      navigation.navigate = navigate;
+                      navigation.popTo = popTo;
                     },
                   })}
                 />
@@ -312,7 +312,7 @@ describe('<FitnessFilters />', () => {
 
       await fireEvent.press(getByText('See 1 drill'));
 
-      expect(navigate).toBeCalledWith('DrillListPage', {
+      expect(popTo).toHaveBeenCalledWith('DrillListPage', {
         type: DrillTypes.FITNESS,
         currentFilters: {
           selectedFavorites: false,
@@ -333,7 +333,7 @@ describe('<FitnessFilters />', () => {
       const fullDrill = createDrill({ id: 3, goals: [FitnessGoals.FULL_BODY] });
       const legsCoreDrill = createDrill({ id: 4, goals: [FitnessGoals.LEGS, FitnessGoals.CORE] });
       const drills = [legsDrill, upperDrill, fullDrill, legsCoreDrill];
-      const navigate = jest.fn();
+      const popTo = jest.fn();
 
       const DummyScreen = (props) => null;
       const Stack = createStackNavigator();
@@ -353,7 +353,7 @@ describe('<FitnessFilters />', () => {
                   }}
                   listeners={({ navigation }) => ({
                     transitionStart: (e) => {
-                      navigation.navigate = navigate;
+                      navigation.popTo = popTo;
                     },
                   })}
                 />
@@ -389,7 +389,7 @@ describe('<FitnessFilters />', () => {
 
       await fireEvent.press(getByText('See 1 drill'));
 
-      expect(navigate).toBeCalledWith('DrillListPage', {
+      expect(popTo).toHaveBeenCalledWith('DrillListPage', {
         type: DrillTypes.FITNESS,
         currentFilters: {
           selectedFavorites: false,
@@ -409,7 +409,7 @@ describe('<FitnessFilters />', () => {
       const twoMinutesDrill = createDrill({ id: 2, durationInMinutes: 2 });
       const tenMinutesDrill = createDrill({ id: 3, durationInMinutes: 10 });
       const drills = [oneMinuteDrill, twoMinutesDrill, tenMinutesDrill];
-      const navigate = jest.fn();
+      const popTo = jest.fn();
 
       const DummyScreen = (props) => null;
       const Stack = createStackNavigator();
@@ -429,7 +429,7 @@ describe('<FitnessFilters />', () => {
                   }}
                   listeners={({ navigation }) => ({
                     transitionStart: (e) => {
-                      navigation.navigate = navigate;
+                      navigation.popTo = popTo;
                     },
                   })}
                 />
@@ -451,7 +451,7 @@ describe('<FitnessFilters />', () => {
 
       await fireEvent.press(getByText('See 2 drills'));
 
-      expect(navigate).toBeCalledWith('DrillListPage', {
+      expect(popTo).toHaveBeenCalledWith('DrillListPage', {
         type: DrillTypes.FITNESS,
         currentFilters: {
           selectedFavorites: false,
@@ -468,7 +468,7 @@ describe('<FitnessFilters />', () => {
 
     it('filters favorite drills', async () => {
       const drills = [beginnerDrill, intermediateDrill, advancedDrill];
-      const navigate = jest.fn();
+      const popTo = jest.fn();
 
       const DummyScreen = (props) => null;
       const Stack = createStackNavigator();
@@ -493,7 +493,7 @@ describe('<FitnessFilters />', () => {
                   }}
                   listeners={({ navigation }) => ({
                     transitionStart: (e) => {
-                      navigation.navigate = navigate;
+                      navigation.popTo = popTo;
                     },
                   })}
                 />
@@ -513,7 +513,7 @@ describe('<FitnessFilters />', () => {
 
       await fireEvent.press(getByText('See 1 drill'));
 
-      expect(navigate).toBeCalledWith('DrillListPage', {
+      expect(popTo).toHaveBeenCalledWith('DrillListPage', {
         type: DrillTypes.FITNESS,
         currentFilters: {
           selectedFavorites: true,
@@ -535,7 +535,7 @@ describe('<FitnessFilters />', () => {
       const twoMinutesDrill = createDrill({ id: 2, durationInMinutes: 2 });
       const tenMinutesDrill = createDrill({ id: 3, durationInMinutes: 10 });
       const drills = [oneMinuteDrill, twoMinutesDrill, tenMinutesDrill];
-      const navigate = jest.fn();
+      const popTo = jest.fn();
 
       const DummyScreen = (props) => null;
       const Stack = createStackNavigator();
@@ -555,7 +555,7 @@ describe('<FitnessFilters />', () => {
                   }}
                   listeners={({ navigation }) => ({
                     transitionStart: (e) => {
-                      navigation.navigate = navigate;
+                      navigation.popTo = popTo;
                     },
                   })}
                 />
@@ -582,7 +582,7 @@ describe('<FitnessFilters />', () => {
 
       await fireEvent.press(getByText('See 3 drills'));
 
-      expect(navigate).toBeCalledWith('DrillListPage', {
+      expect(popTo).toHaveBeenCalledWith('DrillListPage', {
         type: DrillTypes.FITNESS,
         currentFilters: {
           selectedFavorites: false,

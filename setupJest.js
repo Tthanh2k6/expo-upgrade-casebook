@@ -20,7 +20,7 @@ jest.mock('expo-asset');
 
 // jest-expo 55 mocks ExpoVideo functions but not its native SharedObject classes.
 // Keep the real useVideoPlayer hook and VideoView; replace only the native player.
-jest.mock('expo-video/build/NativeVideoModule', () => {
+jest.mock('expo-video/build/ExpoVideo', () => {
   const { SharedObject } = require('expo-modules-core');
   class VideoPlayer extends SharedObject {
     __expo_shared_object_id__ = 1;

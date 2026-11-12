@@ -1,7 +1,7 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`<FrisbeeDrillIllustration /> renders correctly 1`] = `
-<RCTSafeAreaView
+<SafeAreaView
   style={
     {
       "flex": 1,
@@ -180,5 +180,5 @@ exports[`<FrisbeeDrillIllustration /> renders correctly 1`] = `
       </View>
     </View>
   </RCTScrollView>
-</RCTSafeAreaView>
+</SafeAreaView>
 `;

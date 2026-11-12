@@ -128,7 +128,7 @@ describe('<DrillEditorPage />', () => {
     await waitFor(() => {
       expect(saveDrill).toHaveBeenCalledWith(expectedDrill);
     });
-    expect(navigate).toHaveBeenCalledWith('DrillPage', { id: createdDrill.id });
+    expect(navigate).toHaveBeenCalledWith('DrillPage', { id: createdDrill.id }, { pop: true });
   });
 
   it('cannot create a drill with missing fields', async () => {
@@ -204,6 +204,6 @@ describe('<DrillEditorPage />', () => {
     await waitFor(() => {
       expect(saveDrill).toHaveBeenCalledWith(expectedDrill);
     });
-    expect(navigate).toHaveBeenCalledWith('DrillPage', { id: createdDrill.id });
+    expect(navigate).toHaveBeenCalledWith('DrillPage', { id: createdDrill.id }, { pop: true });
   });
 });

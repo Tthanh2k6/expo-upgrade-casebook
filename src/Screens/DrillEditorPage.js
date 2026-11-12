@@ -96,7 +96,7 @@ export const DrillEditorPage = (props) => {
           onSubmit={(values) => {
             props.saveDrill(values);
             showSuccess(I18n.t('drillEditorPage.saveSuccess', { title: values.title }));
-            props.navigation.navigate('DrillPage', { id: values.id });
+            props.navigation.navigate('DrillPage', { id: values.id }, { pop: true });
           }}
         >
           {({ handleSubmit, handleChange, errors, values, touched, isValid }) => (

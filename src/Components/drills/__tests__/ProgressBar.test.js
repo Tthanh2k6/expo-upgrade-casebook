@@ -11,6 +11,6 @@ describe('<ProgressBar />', () => {
     expect(toJSON()).toMatchSnapshot();
 
     await fireEvent.press(queryAllByTestId('progress-bar-dot')[3]);
-    expect(onDotPress).toBeCalledWith(3);
+    expect(onDotPress).toHaveBeenCalledWith(3);
   });
 });

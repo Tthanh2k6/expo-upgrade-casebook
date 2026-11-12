@@ -431,3 +431,72 @@ Results:
 - Android export: **OK**, exit 0; 2322 modules bundled in 27408 ms, 44 assets, one 6 MB Hermes bundle and `metadata.json` in `%TEMP%\expo-casebook-sdk57\android-export`, outside the repository. No native build or device/emulator runtime test was performed.
 - Changes are limited to SDK-aligned dependencies, `yarn.lock`, this log and `COMMIT_MSG.txt`. No Git add, commit, stash, checkout or push was run.
 - `git diff --check`: passed. Git emitted an LF/CRLF notice for this log. `COMMIT_MSG.txt` has a 47-character subject and five bullet lines.
+
+## SDK 58 (React Native 0.88.1)
+
+- Measured on 12 November 2026, Windows, Node 24.15.0 and Yarn 1.22.22. Upgraded only SDK 57 to 58: Expo 58.0.24, React Native 0.88.1, React/react-test-renderer 19.3.0, Reanimated 4.7.1, Worklets 0.13.0, Gesture Handler 3.3.0, pager-view 9.0.7, screens 4.30.1, safe-area-context 5.11.1, expo-video 58.0.14, Jest 30.5.2, jest-expo 58.0.14, @react-native/jest-preset 0.88.1 and babel-preset-expo 58.0.25.
+- Reviewed the [SDK 58 release notes](https://expo.dev/changelog/sdk-58), [upgrade guide](https://expo.dev/blog/how-to-upgrade-to-sdk-58), React Native [0.87](https://reactnative.dev/blog/2026/08/11/react-native-0.87) and [0.88](https://reactnative.dev/blog/2026/10/19/react-native-0.88) notes, and installed library implementations. Updated `.nvmrc` to 24.15.0 and the Node engine to `^22.13.0 || ^24.3.0 || >=26.0.0`, matching the installed React Native requirement; SDK 58 no longer supports Node 20.
+- Replaced the app's Android Firebase timer `InteractionManager.runAfterInteractions` with `requestIdleCallback`. React Native removed InteractionManager. Added three regression tests for deferred execution with arguments, cancellation after idle scheduling, and short timers.
+- Source inspection also found unconditional InteractionManager calls in React Navigation stack 6.3.20's Card. Updated native/stack to 7.5.1/7.12.1, whose native InteractionManager adapter skips the removed API. This incompatibility was identified in source, not by a thrown runtime error. Replaced the v6-only material-bottom-tabs package with the existing Paper 5.15.4 navigator, following the [Navigation 7 migration guide](https://reactnavigation.org/docs/upgrading-from-6.x/). Paper marks this integration deprecated, but it remains available; its suggested future replacement is bottom-tabs with BottomNavigation.Bar.
+- Migrated hidden back titles to `headerBackButtonDisplayMode: 'minimal'`. Migrated returns from filters, animation editing and training to `popTo`; merge preserves the drill editor and program-list parameters. Saving a drill uses `navigate(..., { pop: true })` so it returns to an existing drill screen or pushes one when absent. Updated the corresponding assertions without removing their checks.
+- No native directories or custom native modules are present. Scene lifecycle and Android R8 changes are handled by the SDK's generated templates; no native build was run. The app uses JavaScript, no Expo Router, and none of the removed file-system/SQLite/notification APIs. Configuration uses APP_ENV, so the CLI's NODE_ENV change needs no config migration. The [iOS 27 orientation limitation](https://docs.expo.dev/versions/v58.0.0/sdk/screen-orientation/#orientation-locks-on-ios-27-and-later) remains a platform constraint: fullscreen video requests an orientation, but a resizable iOS window may refuse it. No device validation was performed.
+- Snap-carousel and RNEUI passed the exercised tests/export, so they were not replaced. AV was already replaced with expo-video in SDK 55. No node_modules patches, dependency overrides or Doctor exclusions were added.
+
+Commands and environment (SDK 55 npm/Yarn caches and cached Yarn executable reused):
+
+```powershell
+$env:HUSKY = '0'
+$env:EXPO_NO_TELEMETRY = '1'
+$env:APP_ENV = 'development'
+$env:__UNSAFE_EXPO_HOME_DIRECTORY = Join-Path $env:TEMP 'expo-casebook-sdk58\expo'
+$env:npm_config_cache = Join-Path $env:TEMP 'expo-casebook-sdk55\npm'
+$env:YARN_CACHE_FOLDER = Join-Path $env:TEMP 'expo-casebook-sdk55\yarn'
+$yarnBin = Get-ChildItem -Path (Join-Path $env:npm_config_cache '_npx\*\node_modules\.bin\yarn.cmd') | Select-Object -First 1 -ExpandProperty DirectoryName
+$env:Path = $yarnBin + ';' + $env:Path
+node --version # v24.15.0
+npx.cmd expo install expo@^58.0.0
+npx.cmd expo install --fix
+npx.cmd --yes yarn@1.22.22 add --dev @react-native/jest-preset@0.88.1 react-test-renderer@19.3.0
+npx.cmd jest --ci --coverage=false
+npx.cmd expo-doctor
+npx.cmd --yes yarn@1.22.22 add @react-navigation/native@^7 @react-navigation/stack@^7
+npx.cmd --yes yarn@1.22.22 remove @react-navigation/material-bottom-tabs
+# Repeated after the test/config fixes described below:
+npx.cmd jest --ci --coverage=false
+npx.cmd expo export --platform android --output-dir (Join-Path $env:TEMP 'expo-casebook-sdk58/android-export')
+npx.cmd jest --ci --coverage=false --updateSnapshot
+npx.cmd expo-doctor
+npx.cmd jest --ci --coverage=false
+# Repeated Jest/export after preserving animation-editor parameters with merge:
+npx.cmd jest --ci --coverage=false
+npx.cmd expo export --platform android --output-dir (Join-Path $env:TEMP 'expo-casebook-sdk58/android-export')
+git diff --check
+```
+
+Errors, causes and fixes:
+
+- Both requested Expo install commands exited 0. The first installed exactly 58.0.0; `--fix` installed 58.0.24 and aligned SDK packages, including Jest 30. Yarn reported `There appears to be trouble with your network connection. Retrying...`; the retry succeeded. `jest-expo@58.0.14 has incorrect peer dependency "@react-native/jest-preset@^0.88.1"` was fixed by aligning the explicit preset. Matched react-test-renderer to React before running tests. HUSKY=0 skipped hook installation.
+- Initial Jest failed configuration validation: `assetFileTransformer.js in the transform option was not found`, although that file existed. A direct resolver probe exposed `Failed to convert JavaScript value Undefined into rust type String on NapiResolveOptions.conditionNames`. Cause: the custom resolver appended undefined when Jest resolved configuration without conditions; Jest 30's Rust resolver rejects it. Fix: preserve the Firebase `node` condition and supply `require`/`default` when conditions are absent.
+- Second Jest: `Cannot find module 'expo-video/build/NativeVideoModule' from 'setupJest.js'`; 59 suites failed before any tests. Expo Video renamed that file to ExpoVideo. Updated the native-player mock target and, after the same error appeared in VimeoVideo.test.js, its direct test import. The real VideoView and useVideoPlayer remain exercised.
+- Third Jest: `Outdated guide link: The snapshot guide link at the top of this snapshot is outdated`; 10/59 suites and 36/36 executed tests passed, no snapshots executed. Jest 30 rejects the old goo.gl header. Changed only the guide URL in all 49 snapshot file headers before testing rendering; snapshot values were untouched by that metadata migration.
+- Fourth Jest: 42/59 suites, 134/163 executed tests and 74/75 executed snapshots passed. In addition to the stale Vimeo test import, it reported `expect(...).toBeCalledWith is not a function` (Jest 30 removed the alias), `[Reanimated] setCSSEventHandler is not available in JSReanimated`, and a navigation snapshot mismatch. Replaced 34 `toBeCalledWith` assertions with the equivalent `toHaveBeenCalledWith` matcher.
+- Reanimated's existing mock now imports native initializers under the old resolver. Composed the supplied `react-native-reanimated/jest/resolver` into the custom resolver, following its [Jest setup documentation](https://docs.swmansion.com/react-native-reanimated/docs/guides/testing/). This selects Reanimated/Worklets web implementations for tests while retaining Firebase resolution; no native initializer was stubbed manually.
+- Fifth Jest: 51/60 suites, 169/174 executed tests and 76/77 executed snapshots passed. It still contained the Reanimated failure and reported `No safe area value available`. Paper's navigator needs a provider in the standalone HomePage test; wrapped that test in a real SafeAreaProvider with fixed initial metrics. The application already renders HomePage inside the stack's provider.
+- The new isolated Android timer tests initially reported `Cannot read properties of undefined (reading 'EXDevLauncher')`: their minimal React Native stub was insufficient for the shared Constants mock. Added a local Constants stub, since these tests exercise timer behavior only. Their next run reported `toHaveBeenCalledExactlyOnceWith is not a function`; replaced that unsupported matcher with separate call-count and argument assertions. No existing assertion was weakened.
+- Sixth Jest: 54/60 suites, 179/187 tests and 79/85 snapshots passed; the failures were the two new-test matcher errors and six rendering snapshots. After fixing the matchers and reviewing the rendering differences, the update run passed 60/60 suites and 187/187 tests, with six snapshots updated and 79 unchanged (19.283 s).
+- Inspection/tooling errors: `rg` was unavailable, so searches used Select-String. An unpkg source fetch failed with `The underlying connection was closed`; inspected the package via `npm.cmd pack @react-navigation/stack@7.12.1 --pack-destination <temporary SDK58 directory> --silent` instead. GNU tar could not read the Windows drive path (`Cannot connect to C: resolve failed`); Python tarfile read it successfully. A few assumed library source paths returned `Cannot find path`; directory listings located the actual files. These did not block verification. Parent instructions referenced agent.md/CODEBASE.md, but neither exists in this repo.
+- Remaining install warnings concern RNEUI/safe-area-context/vector-icons, react-redux/React, prop-types, react-refresh, Worklets' Metro peer and a test-renderer types peer. Earlier test runs emitted ImageBackground deprecation and act warnings. PowerShell wrapped native stderr as NativeCommandError even for successful redirected Jest runs; the process exit codes and summaries were 0/pass. Metro emitted the NO_COLOR/FORCE_COLOR warning. Read-only Git reported inaccessible global ignore and LF/CRLF warnings.
+
+Expected library rendering changes (six snapshots in five files):
+
+- FrisbeeDrillIllustration and DrillPageMinimal: React Native's rendered SafeAreaView name changes from RCTSafeAreaView to SafeAreaView; contents/styles remain.
+- FitnessPage (one) and DrillPage (two): Navigation 7 changes header/card wrappers, uses aria-hidden and role="heading", supplies the System font, changes header shadow defaults and adds header margins. Safe-area adds onLayout; screens adds iosOrientationInheritanceFixEnabled. Header text and screen content remain. Compared with installed navigation Header/HeaderTitle/HeaderBackground/Card and screens implementations.
+- HomePage: the Paper navigator uses its theme background `rgba(255, 251, 254, 1)` instead of Navigation's `rgb(242, 242, 242)`. The provider fixture adds no new snapshot wrapper compared with the previous navigator's provider.
+- No snapshots were added or removed. The other 44 snapshot files changed only their Jest guide URL. The deterministic AboutPage copyright year was unchanged.
+
+Results:
+
+- Final Jest, APP_ENV=development, no update mode: **60/60 suites, 187/187 tests, 85/85 snapshots passed**, exit 0 (19.233 s). This includes the three new Android timer tests. Output: `%TEMP%\expo-casebook-sdk58\jest-final.log`.
+- Bare `npx.cmd expo-doctor`, Doctor 1.21.8: **20/20 checks passed**, exit 0, both before and after the navigation dependency migration. No unresolved checks or temporary dependency workaround.
+- Android export: **OK**, exit 0, including a repeat after the final navigation change. Final run bundled 2479 modules in 16528 ms and exported 55 assets, one 6.4 MB Hermes bundle and metadata.json to `%TEMP%\expo-casebook-sdk58\android-export`, outside the repository. Initial successful export took 28521 ms. No native build or device/emulator runtime test was performed.
+- `git diff --check`: passed. Wrote COMMIT_MSG.txt. No Git add, commit, stash, checkout or push was run.
