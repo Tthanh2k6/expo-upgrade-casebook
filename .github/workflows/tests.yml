@@ -1,37 +1,41 @@
 name: Run test suite
 
-on: [pull_request]
+on:
+  push:
+    branches: [main]
+  pull_request:
 
 jobs:
   test:
-    name: Test
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        node-version: [22.x]
+    name: Jest & Android Export (Node 24)
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+          cache: yarn
 
       - name: Install dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
 
       - name: Create env file
         run: |
           touch .env
-          echo DEV_FIREBASE_URL_PREFIX=${{ secrets.DEV_FIREBASE_URL_PREFIX }} >> .env
-          cat .env
+          echo "DEV_FIREBASE_URL_PREFIX=${{ secrets.DEV_FIREBASE_URL_PREFIX }}" >> .env
 
-      - name: Run test command
+      - name: Run Jest suite
         env:
           APP_ENV: development
-        run: yarn run test-ci
+          EXPO_NO_TELEMETRY: '1'
+        run: npx jest --ci --coverage=false
+
+      - name: Export Android bundle
+        env:
+          APP_ENV: development
+          EXPO_NO_TELEMETRY: '1'
+        run: npx expo export --platform android --output-dir /tmp/android-export
